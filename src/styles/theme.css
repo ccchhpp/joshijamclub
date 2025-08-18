@@ -1,16 +1,16 @@
 :root {
 	/* Theme Colors */
-	--theme-primary: #6183ff; /* The primary color of the theme. This would be the color used for the button backgrounds */
+	--theme-primary: #6787ff; /* The primary color of the theme. This would be the color used for the button backgrounds */
 	--theme-primary-hover: #466dfb; /* The color you would like the primary color to change to when hovered over */
 	--theme-on-primary: #fff; /* The color of text layered on top of the primary color */
 
 	--theme-bg: #fff; /* The background color of the site */
 	--theme-on-bg: #000; /* Default body text color */
 
-	--theme-surface-1: #6183ff; /* The color used for cards layered on top of the background. Think of it like a global accent color or a secondary background color */
-	--theme-on-surface-1: #fff; /* The color used for text on top of the surface-1 color */
+	--theme-surface-1: #8fb9ff; /* The color used for cards layered on top of the background. Think of it like a global accent color or a secondary background color */
+	--theme-on-surface-1: #000; /* The color used for text on top of the surface-1 color */
 
-	--theme-surface-2: #cce6d0; /* Similar to the surface-1 color but used less often. Feel free to be more creative with this surface to make it pop on the page */
+	--theme-surface-2: #ffc1e2; /* Similar to the surface-1 color but used less often. Feel free to be more creative with this surface to make it pop on the page */
 	--theme-on-surface-2: #fff; /* The color used for text on top of the surface-2 color */
 
 	/* Theme Shapes */
