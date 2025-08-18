@@ -1,0 +1,53 @@
+---
+import { parse, isBefore } from 'date-fns';
+import {
+	Container,
+	TextCardSection,
+	EventPostsList,
+} from '@components/odyssey-theme';
+import Layout from '../../layouts/Page.astro';
+
+const posts = await Astro.glob('./posts/*.mdx').then(posts =>
+	posts
+		.map(({ frontmatter, url }) => ({
+			title: frontmatter.title,
+			description: frontmatter.description,
+			authors: frontmatter.authors,
+			eventDate: parse(frontmatter.eventDate, 'MMMM d, yyyy', new Date()),
+			featuredImage: frontmatter.featuredImage,
+			excerpt: frontmatter.excerpt,
+			href: url,
+		}))
+		.sort((a, b) => {
+			if (isBefore(a.eventDate, b.eventDate)) return 1;
+			if (isBefore(b.eventDate, a.eventDate)) return -1;
+			return 0;
+		})
+);
+
+const seo = {
+	title: 'Events | Joshi Jam',
+	description: 'Joshi Jam Events Page',
+};
+---
+
+<Layout {seo}>
+	<Container>
+		<TextCardSection>
+			<h1>Events</h1>
+			<p>
+				A collection of past and upcoming events organized by us.
+			</p>
+		</TextCardSection>
+		<section class="event-posts-list__section">
+			<h2>Recent Events</h2>
+			<EventPostsList posts={posts} />
+		</section>
+	</Container>
+</Layout>
+
+<style>
+	.event-posts-list__section {
+		margin: var(--section-margin) auto;
+	}
+</style>

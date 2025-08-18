@@ -1,0 +1,36 @@
+---
+const {post} = Astro.props;
+---
+
+<li class="event-post__preview">
+  <a href={post.href}>
+    <img src={post.featuredImage} />
+    <h3>{post.title}</h3>
+    {post.excerpt && <p>{post.excerpt}</p>}
+  </a>
+</li>
+
+
+<style>
+.event-post__preview img {
+  margin-bottom: 1rem;
+  border-radius: calc(var(--theme-shape-radius) /2);
+  transition: border-radius var(--theme-transition);
+}
+.event-post__preview:hover a {
+  border-radius: var(--theme-shape-radius);
+  transition: border-radius var(--theme-transition);
+}
+.event-post__preview a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding:20px;
+  background-color: #F2F0EF;
+  color: #000;
+  border-radius: calc(var(--theme-shape-radius) /2);
+}
+.event-post__preview h3 {
+  margin: 0;
+}
+</style> 

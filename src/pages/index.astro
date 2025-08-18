@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Page.astro';
+import HomeHeroSection from '../components/sections/heros/HomeHeroSection.astro';
+import { Container, FeatureCard, Button, ThreeColumnTextSection } from '@components/odyssey-theme';
+import CustomerQuoteSection from '../components/sections/CustomerQuoteSection.astro';
+import CtaCardSection from '../components/sections/CtaCardSection.astro';
+---
+
+
+<Layout>
+	<HomeHeroSection />
+
+  <section class="about__section">
+    <h2>What We Do</h2>
+    <ThreeColumnTextSection>
+      <div slot="column-1-body">
+        <h2>Design</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est dolorem
+          tempore odio! Nemo consectetur ipsa aperiam similique maxime maiores
+          consequatur explicabo ut quibusdam fugiat corporis, dignissimos tenetur,
+          mollitia cumque. Velit.
+        </p>
+      </div>
+      <div slot="column-2-body">
+        <h2>Organize</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est dolorem
+          tempore odio! Nemo consectetur ipsa aperiam similique maxime maiores
+          consequatur explicabo ut quibusdam fugiat corporis, dignissimos tenetur,
+          mollitia cumque. Velit.
+        </p>
+      </div>
+      <div slot="column-3-body">
+        <h2>Manage</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est dolorem
+          tempore odio! Nemo consectetur ipsa aperiam similique maxime maiores
+          consequatur explicabo ut quibusdam fugiat corporis, dignissimos tenetur,
+          mollitia cumque. Velit.
+        </p>
+      </div>
+    </ThreeColumnTextSection>
+  </section>
+
+  <Container>
+		<section class="feature-card__section">
+			<h2>Our Events</h2>
+			<p>
+				A collection of past and upcoming events organized by us.
+			</p>
+			<div class="feature-card__grid">
+				<FeatureCard href="/events" title="Birthday Maid Cafe" imgSrc="/assets/images/events/birthday-maid-cafe/featured">
+				</FeatureCard>
+			</div>
+		</section>
+	</Container>
+
+	<CtaCardSection background="#f7b2d9" color="#2d0036">
+		<h2>Want Us to Organize Your Next Event?</h2>
+		<p>Contact us today and let’s make something happen!</p>
+		<Button href="/contact">Get in Touch</Button>
+	</CtaCardSection>
+</Layout>
+
+<style>
+  .about__section {
+		margin: var(--section-margin) auto;
+		text-align: center;
+    background-color: var(--theme-surface-1);
+    padding-top: 3rem;
+	}
+	.feature-card__section {
+		margin: var(--section-margin) auto;
+		text-align: center;
+    padding: 3rem;
+	}
+	.feature-card__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--theme-grid-gap);
+		margin-top: 2rem;
+	}
+	@media (max-width: 768px) {
+		.feature-card__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
