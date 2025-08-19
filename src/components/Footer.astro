@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import Container  from './core/Container.astro';
 
-const { footerSocials, footerLists, copyrightName, background, color } =
+const { footerSocials, copyrightName, background, color } =
   Astro.props;
 ---
 
@@ -14,6 +14,9 @@ const { footerSocials, footerLists, copyrightName, background, color } =
       <div class="footer-brand__container">
         <div>
           <img src="/assets/logowhite_sm.png" class="joshi-jam-logo" alt="Joshi Jam Logo">
+        </div>
+        <div style="margin-top:1rem;">
+          Follow us on our socials
         </div>
         <ul class="footer-socials__list">
           {
@@ -33,20 +36,6 @@ const { footerSocials, footerLists, copyrightName, background, color } =
           }
         </ul>
       </div>
-      {
-        footerLists.map((list) => (
-          <div>
-            <p><strong>{list.title}</strong></p>
-            <ul class="footer-link__list">
-              {list.items.map((item) => (
-                <li>
-                  <a href={item.slug}>{item.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
     </div>
     <div class="footer-copyright__container">
       <p>Copyright &copy; {new Date().getFullYear()} {copyrightName}</p>
@@ -68,13 +57,18 @@ const { footerSocials, footerLists, copyrightName, background, color } =
   .footer-grid__container {
     padding: 10vh 0 1rem 0;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+  }
+  .footer-brand__container {
+    margin:auto;
+    text-align: center;
   }
   .footer-socials__list {
     margin: 1rem 0;
     padding: 0;
     display: flex;
     list-style: none;
+    justify-content: center;
   }
   .footer-socials__item {
     margin-right: 0.5rem;
@@ -100,6 +94,7 @@ const { footerSocials, footerLists, copyrightName, background, color } =
   }
   .footer-copyright__container p {
     font-size: var(--font-size-sm);
+    text-align: center;
   }
   @media (max-width: 768px) {
     .footer-grid__container :first-child {
@@ -127,7 +122,7 @@ const { footerSocials, footerLists, copyrightName, background, color } =
 		font-family: var(--theme-font-family-serif);
     font-size: var(--font-size-md);
 		color: inherit;
-    max-height:130px;
+    max-height:120px;
 	}
 	.joshi-jam-logo:hover {
 		cursor: pointer;
