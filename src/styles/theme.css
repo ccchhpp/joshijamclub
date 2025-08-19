@@ -31,8 +31,9 @@
 	--theme-event-post-header-width: 1200px;
 
 	/* Theme Fonts */
-	--theme-font-family-serif: 'Lexend', Georgia, Cambria, 'Times New Roman',
+	--theme-font-family-serif: 'Genica', Georgia, Cambria, 'Times New Roman',
 		Times, serif;
-	--theme-font-family-sans: 'Lexend', -apple-system, BlinkMacSystemFont,
+	--theme-font-family-sans: 'Circe', -apple-system, BlinkMacSystemFont,
 		sans-serif;
 }
+	
