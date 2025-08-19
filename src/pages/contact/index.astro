@@ -2,6 +2,7 @@
 import ContactForm from '../../components/forms/ContactForm.astro';
 import Layout from '../../layouts/Page.astro';
 import { Container } from '@components/odyssey-theme';
+import settings from '../../config/settings.js';
 
 const seo = {
 	title: 'Contact | Joshi Jam',
@@ -19,7 +20,7 @@ const seo = {
 				</p>
 				<div>
 					<p>
-              			<a href="mailto:joshijamofficial@gmail.com">joshijamofficial@gmail.com</a>
+            <a href={`mailto:${settings.email}`}>{settings.email}</a>
 					</p>
 				</div>
 			</div>

@@ -1,17 +1,16 @@
 // Core
 export { default as Container } from './core/Container.astro';
 export { default as SkipLink } from './core/SkipLink.astro';
-export { default as Header } from './core/Header.astro';
-export { default as Footer } from './core/Footer.astro';
+export { default as Header } from './Header.astro';
+export { default as Footer } from './Footer.astro';
 export { default as YouTubeEmbed } from './core/YouTubeEmbed.astro';
 export { default as AnnouncementBar } from './core/AnnouncementBar.astro';
-export { default as Plug} from './core/Plug.astro';
 
 // Buttons
 export { default as Button } from './buttons/Button.astro';
 
 // Cards
-export { default as FeatureCard } from './cards/FeatureCard.astro';
+export { default as ImageCard } from './cards/ImageCard.astro';
 
 // Sections
 export { default as TextSection } from './sections/TextSection.astro';
@@ -27,6 +26,6 @@ export { default as EventPostsList } from './events/EventPostsList.astro';
 export { default as EventPostPreview } from './events/EventPostPreview.astro';
 
 // Form Fields
-export { default as FormInput } from './form-fields/FormInput.astro';
-export { default as FormTextarea } from './form-fields/FormTextarea.astro';
-export { default as FormSelect } from './form-fields/FormSelect.astro';
+export { default as FormInput } from './forms/form-fields/FormInput.astro';
+export { default as FormTextarea } from './forms/form-fields/FormTextarea.astro';
+export { default as FormSelect } from './forms/form-fields/FormSelect.astro';

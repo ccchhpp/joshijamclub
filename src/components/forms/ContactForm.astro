@@ -1,10 +1,10 @@
 ---
 import { Button, FormInput, FormTextarea } from '@components/odyssey-theme';
-
+import settings from '../../config/settings.js';
 ---
 
 
-<form id="contact-form" name="Contact Form" method="POST" action="https://formsubmit.tailofleaves.dev/submit/joshijamofficial@gmail.com">
+<form id="contact-form" name="Contact Form" method="POST" action={`https://formsubmit.tailofleaves.dev/submit/${settings.email}`}>
   <FormInput type="hidden" name="FormName" value="Joshi Jam Contact Form"></FormInput>
   <FormInput type="text" label="Name" name="Name" placeholder="Roy Mustang" />
   <FormInput type="email" label="Email" name="Email" placeholder="flame@alchemist.com" />
@@ -35,11 +35,11 @@ import { Button, FormInput, FormTextarea } from '@components/odyssey-theme';
         messageDiv.classList.add('success');
         form.reset();
       } else {
-        messageDiv.innerHTML = 'Sorry, there was an error sending your message.<br>Please send us an email instead at <a href="mailto:joshijamofficial@gmail.com">joshijamofficial@gmail.com</a>';
+        messageDiv.innerHTML = `Sorry, there was an error sending your message.<br>Please send us an email instead at <a href="mailto:${settings.email}">${settings.email}</a>`;
         messageDiv.classList.add('error');
       }
     } catch (err) {
-      messageDiv.innerHTML = 'Sorry, there was an error sending your message.<br>Please send us an email instead at <a href="mailto:joshijamofficial@gmail.com">joshijamofficial@gmail.com</a>';
+      messageDiv.innerHTML = `Sorry, there was an error sending your message.<br>Please send us an email instead at <a href="mailto:${settings.email}">${settings.email}</a>`;
       messageDiv.classList.add('error');
     } finally {
       submitBtn.disabled = false;

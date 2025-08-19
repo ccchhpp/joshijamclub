@@ -50,8 +50,7 @@ const { navData, rightMenu } = Astro.props;
     </span>
   </button>
   <a class="header-logo__link" href="/">
-    <slot name="logo">
-    </slot>
+    <img src="/assets/logo_sm.png" class="joshi-jam-logo" alt="Joshi Jam Logo">
   </a>
   </div>
   <div class="header-nav__container">
@@ -158,4 +157,15 @@ const { navData, rightMenu } = Astro.props;
        margin-bottom: 1rem;
      }
   }
+  .joshi-jam-logo {
+		width: fit-content;
+		margin: 0;
+		font-family: var(--theme-font-family-serif);
+    font-size: var(--font-size-md);
+		color: inherit;
+    max-height:130px;
+	}
+	.joshi-jam-logo:hover {
+		cursor: pointer;
+	}
 </style>

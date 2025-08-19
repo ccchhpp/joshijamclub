@@ -1,8 +1,7 @@
 ---
 import Layout from '../layouts/Page.astro';
 import HomeHeroSection from '../components/sections/heros/HomeHeroSection.astro';
-import { Container, FeatureCard, Button, ThreeColumnTextSection } from '@components/odyssey-theme';
-import CustomerQuoteSection from '../components/sections/CustomerQuoteSection.astro';
+import { Container, ImageCard, Button, ThreeColumnTextSection } from '@components/odyssey-theme';
 import CtaCardSection from '../components/sections/CtaCardSection.astro';
 ---
 
@@ -38,13 +37,13 @@ import CtaCardSection from '../components/sections/CtaCardSection.astro';
 		<section class="feature-card__section">
 			<h2>Our Jams</h2>
 			<div class="feature-card__grid">
-				<FeatureCard href="/events" title="Birthday Maid Cafe" imgSrc="/assets/images/events/birthday-maid-cafe/featured">
-				</FeatureCard>
+				<ImageCard href="/events" title="Birthday Maid Cafe" imgSrc="/assets/images/events/birthday-maid-cafe/featured">
+				</ImageCard>
 			</div>
 		</section>
 	</Container>
 
-	<CtaCardSection background="#f7b2d9" color="#2d0036">
+	<CtaCardSection>
 		<h2>Want Us to Organize Your Next Event?</h2>
 		<p>Contact us today and let’s make something happen!</p>
 		<Button href="/contact">Get in Touch</Button>
