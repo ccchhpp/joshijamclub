@@ -3,7 +3,7 @@ import { Header, Button, Footer } from '@components/odyssey-theme';
 import Layout from './Base.astro';
 import type { Props as BaseHeadProps } from '@components/BaseHeader.astro';
 import settings from '../config/settings';
-import { footerLists, footerSocials } from '../config/footer';
+import { footerSocials } from '../config/footer';
 
 
 export interface Props {
@@ -26,7 +26,6 @@ const { seo } = Astro.props as Props;
 		slot="footer"
 		background="var(--theme-surface-1)"
 		color="var(--theme-on-surface-1)"
-		footerLists={footerLists}
     footerSocials={footerSocials}
 		copyrightName={settings.name}
 	>
