@@ -1,11 +1,11 @@
 ---
 
-const {type = "text", label, name, placeholder, required} = Astro.props;
+const {type = "text", label, name, placeholder, required, value} = Astro.props;
 ---
 
 <div class="form-field__container">
   {label && <label for={name}>{label}</label>}
-  <input type={type} name={name} placeholder={placeholder} required={required}/>
+  <input type={type} name={name} placeholder={placeholder} required={required} value={value}/>
 </div>
 
 <style>

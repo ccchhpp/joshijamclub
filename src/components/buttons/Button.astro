@@ -12,6 +12,7 @@ const Tag = href ? 'a' : 'button';
   href={href}
   target={`${newTab ? '_blank': ``}`}
   rel={`${newTab ? 'noopener noreferrer' : ``}`}
+  {...Astro.props}
 >
   <slot />
   {customIcon && <span class="custom-icon__span"><slot name="icon">custom_icon</slot></span>}
