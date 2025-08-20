@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Page.astro';
 import HomeHeroSection from '../components/sections/heros/HomeHeroSection.astro';
-import { Container, ImageCard, Button, ThreeColumnTextSection } from '@components/odyssey-theme';
+import { Container, Button, ThreeColumnTextSection, HeartFill, StarFill, FlowerFill, SparkleFill } from '@components/odyssey-theme';
+import EventCard from '../components/cards/EventCard.astro';
 import CtaCardSection from '../components/sections/CtaCardSection.astro';
 ---
 
@@ -9,36 +10,46 @@ import CtaCardSection from '../components/sections/CtaCardSection.astro';
 <Layout>
 	<HomeHeroSection />
 
-  <section class="about__section">
-    <h2>What We Do</h2>
-    <ThreeColumnTextSection>
-      <div slot="column-1-body">
-        <h3>Graphic Design</h3>
-        <p>
-          Design services available to create your next logo or brand kit. Make your event stand out with something fresh!
-        </p>
-      </div>
-      <div slot="column-2-body">
-        <h3>Event Coordination</h3>
-        <p>
-         Organization and logistics planning for running events big or small, including staffing, tabling, etc. Leave it to us!
-        </p>
-      </div>
-      <div slot="column-3-body">
-        <h3>Build Outs</h3>
-        <p>
-          Construction of booths for events, conventions, etc. Connecting you with services to make your presence known.
-        </p>
-      </div>
-    </ThreeColumnTextSection>
-  </section>
+	<section class="about__section">
+		<div class="about__bg-icons">
+			<FlowerFill class="about__bg-icon about__bg-icon--flower" />
+			<HeartFill class="about__bg-icon about__bg-icon--heart" />
+			<SparkleFill class="about__bg-icon about__bg-icon--sparkle" />
+			<StarFill class="about__bg-icon about__bg-icon--star" />
+		</div>
+		<h2>What We Do</h2>
+		<ThreeColumnTextSection>
+			<div slot="column-1-body">
+				<h3>Graphic Design</h3>
+				<p>
+					Design services available to create your next logo or brand kit. Make your event stand out with something fresh!
+				</p>
+			</div>
+			<div slot="column-2-body">
+				<h3>Event Coordination</h3>
+				<p>
+				 Organization and logistics planning for running events big or small, including staffing, tabling, etc. Leave it to us!
+				</p>
+			</div>
+			<div slot="column-3-body">
+				<h3>Build Outs</h3>
+				<p>
+					Construction of booths for events, conventions, etc. Connecting you with services to make your presence known.
+				</p>
+			</div>
+		</ThreeColumnTextSection>
+	</section>
 
   <Container>
 		<section class="feature-card__section">
 			<h2>Our Jams</h2>
 			<div class="feature-card__grid">
-				<ImageCard href="/events" title="Birthday Maid Cafe" imgSrc="/assets/images/events/birthday-maid-cafe/featured">
-				</ImageCard>
+				<EventCard
+					href="/events"
+					title="Birthday Maid Cafe"
+					description="In collaboration with Asayoru Maid Cafe, Joshi Jam is proud to present a meet and greet and maid cafe experience."
+					icon={HeartFill}
+				/>
 			</div>
 		</section>
 	</Container>
@@ -51,12 +62,54 @@ import CtaCardSection from '../components/sections/CtaCardSection.astro';
 </Layout>
 
 <style>
-  .about__section {
+	.about__section {
 		margin: var(--section-margin) auto;
 		text-align: center;
-    background-color: var(--theme-surface-1);
-    padding-top: 3rem;
-    color: var(--theme-on-surface-1);
+		background-color: var(--theme-surface-1);
+		padding-top: 3rem;
+		color: var(--theme-on-surface-1);
+		position: relative;
+		overflow: hidden;
+	}
+	.about__bg-icons {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 0;
+	}
+	.about__bg-icon {
+		position: absolute;
+		opacity: 0.13;
+		filter: blur(0.5px) drop-shadow(0 2px 8px rgba(0,0,0,0.04));
+		pointer-events: none;
+		z-index: 0;
+		transition: opacity 0.2s;
+	}
+	.about__bg-icon--flower {
+		width: 120px; height: 120px;
+		left: 4%; top: 12%;
+		color: var(--theme-on-surface-1);
+		transform: rotate(-18deg);
+	}
+	.about__bg-icon--heart {
+		width: 160px; height: 160px;
+		right: 2%; top: 8%;
+		color: var(--theme-on-surface-1);
+		transform: rotate(12deg);
+	}
+	.about__bg-icon--sparkle {
+		width: 80px; height: 80px;
+		left: 10%; bottom: 6%;
+		color: var(--theme-on-surface-1);
+		transform: rotate(-8deg);
+	}
+	.about__bg-icon--star {
+		width: 100px; height: 100px;
+		right: 8%; bottom: 10%;
+		color: var(--theme-on-surface-1);
+		transform: rotate(22deg);
 	}
 	.feature-card__section {
 		margin: var(--section-margin) auto;
@@ -73,5 +126,47 @@ import CtaCardSection from '../components/sections/CtaCardSection.astro';
 		.feature-card__grid {
 			grid-template-columns: 1fr;
 		}
+	}
+		.event-card {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			background: var(--theme-primary);
+			border-radius: 1.2rem;
+			box-shadow: 0 2px 12px 0 rgba(0,0,0,0.07);
+			overflow: hidden;
+			text-align: left;
+			text-decoration: none;
+			color: inherit;
+			transition: transform 0.18s, box-shadow 0.18s;
+			min-width: 0;
+			gap: 1.2rem;
+			padding-right: 1.2rem;
+		}
+	.event-card:hover {
+		transform: translateY(-6px) scale(1.03);
+		box-shadow: 0 6px 24px 0 rgba(0,0,0,0.13);
+	}
+		.event-card__icon-wrap {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			min-width: 56px;
+			height: 100%;
+		}
+		.event-card__body {
+			padding: 1.2rem 0 1.2rem 1.2rem;
+			flex: 1 1 0%;
+		}
+	.event-card__body h3 {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.25rem;
+		font-weight: 700;
+	}
+	.event-card__body p {
+		margin: 0;
+		font-size: 1rem;
+		color: var(--theme-on-surface-2, #444);
 	}
 </style>

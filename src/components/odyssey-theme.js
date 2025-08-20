@@ -29,3 +29,13 @@ export { default as EventPostPreview } from './events/EventPostPreview.astro';
 export { default as FormInput } from './forms/form-fields/FormInput.astro';
 export { default as FormTextarea } from './forms/form-fields/FormTextarea.astro';
 export { default as FormSelect } from './forms/form-fields/FormSelect.astro';
+
+// SVGs
+export { default as SparkleFill } from './svg/SparkleFill.astro';
+export { default as SparkleOutline } from './svg/SparkleOutline.astro';
+export { default as StarFill } from './svg/StarFill.astro';
+export { default as StarOutline } from './svg/StarOutline.astro';
+export { default as HeartFill } from './svg/HeartFill.astro';
+export { default as HeartOutline } from './svg/HeartOutline.astro';
+export { default as FlowerFill } from './svg/FlowerFill.astro';
+export { default as FlowerOutline } from './svg/FlowerOutline.astro';

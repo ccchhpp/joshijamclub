@@ -1,7 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Container, Button } from '@components/odyssey-theme';
-import settings from '../../../config/settings.js';
+import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from '@components/odyssey-theme';
 ---
 
 <Container>
@@ -21,15 +20,16 @@ import settings from '../../../config/settings.js';
 					>
 				</div>
 		</div>
-		<div class="hero-section__image">
-				<picture>
-					<img
-						src="/assets/featured.png"
-						alt="Joshi Jam"
-						id="home-hero-image"
-					/>
-				</picture>
-		</div>
+			<div class="hero-section__image-cluster">
+				<HeartFill id="svg-heart" />
+				<FlowerFill id="svg-flower" />
+				<SparkleFill id="svg-sparkle" />
+				<StarFill id="svg-star" />
+				<SparkleFill id="svg-sparkle-alt1" />
+				<StarFill id="svg-star-alt1" />
+				<FlowerFill id="svg-flower-alt1" />
+				<HeartFill id="svg-heart-alt1" />
+			</div>
 	</section>
 </Container>
 
@@ -69,4 +69,112 @@ import settings from '../../../config/settings.js';
 			grid-template-columns: 1fr;
 		}
 	}
+
+	/* Clustered SVG design */
+  .hero-section__image-cluster {
+    position: relative;
+    width: 520px;
+    height: 520px;
+    margin: 0 auto;
+  }
+	.hero-section__image-cluster :global(svg) {
+		position: absolute;
+		transition: transform 0.3s;
+		filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
+	}
+  .hero-section__image-cluster :global(#svg-heart) {
+    width: 180px;
+    height: 180px;
+    top: 80px;
+    left: 40px;
+    z-index: 2;
+    transform: rotate(-8deg);
+    color: var(--theme-surface-1);
+  }
+  .hero-section__image-cluster :global(#svg-flower) {
+    width: 140px;
+    height: 140px;
+    top: 10px;
+    left: 240px;
+    z-index: 3;
+    transform: rotate(12deg);
+    color: var(--theme-surface-2);
+  }
+  .hero-section__image-cluster :global(#svg-sparkle) {
+    width: 110px;
+    height: 110px;
+    top: 340px;
+    left: 100px;
+    z-index: 1;
+    transform: rotate(-18deg);
+    color: var(--theme-surface-2);
+  }
+  .hero-section__image-cluster :global(#svg-star) {
+    width: 100px;
+    height: 100px;
+    top: 200px;
+    left: 370px;
+    z-index: 4;
+    transform: rotate(20deg);
+    color: var(--theme-surface-1);
+  }
+  /* Alternate/extra SVGs for more visual interest */
+  .hero-section__image-cluster :global(#svg-sparkle-alt1) {
+    width: 60px;
+    height: 60px;
+    top: 420px;
+    left: 320px;
+    z-index: 2;
+    transform: rotate(8deg);
+    color: var(--theme-surface-2);
+    opacity: 0.7;
+  }
+  .hero-section__image-cluster :global(#svg-star-alt1) {
+    width: 50px;
+    height: 50px;
+    top: 60px;
+    left: 400px;
+    z-index: 2;
+    transform: rotate(-12deg);
+    color: var(--theme-surface-1);
+    opacity: 0.7;
+  }
+  .hero-section__image-cluster :global(#svg-flower-alt1) {
+    width: 80px;
+    height: 80px;
+    top: 350px;
+    left: 420px;
+    z-index: 2;
+    transform: rotate(24deg);
+    color: var(--theme-surface-2);
+    opacity: 0.7;
+  }
+  .hero-section__image-cluster :global(#svg-heart-alt1) {
+    width: 100px;
+    height: 100px;
+    top: 240px;
+    left: 210px;
+    z-index: 1;
+    transform: rotate(12deg);
+    color: var(--theme-surface-1);
+    opacity: 0.7;
+  }
+  @media (max-width: 768px) {
+    .hero-section__section {
+      grid-template-columns: 1fr;
+    }
+    .hero-section__image-cluster {
+      width: 320px;
+      height: 320px;
+      margin-top:2rem;
+    }
+    .hero-section__image-cluster :global(#svg-heart) { width: 80px; height: 80px; top: 24px; left: 10px; }
+    .hero-section__image-cluster :global(#svg-flower) { width: 60px; height: 60px; top: 0; left: 170px; }
+    .hero-section__image-cluster :global(#svg-sparkle) { width: 40px; height: 40px; top: 200px; left: 30px; }
+    .hero-section__image-cluster :global(#svg-star) { width: 36px; height: 36px; top: 180px; left: 240px; }
+    .hero-section__image-cluster :global(#svg-sparkle-alt1) { width: 30px; height: 30px; top: 260px; left: 120px; }
+    .hero-section__image-cluster :global(#svg-star-alt1) { width: 24px; height: 24px; top: 40px; left: 260px; }
+    .hero-section__image-cluster :global(#svg-flower-alt1) { width: 40px; height: 40px; top: 250px; left: 270px; }
+    .hero-section__image-cluster :global(#svg-heart-alt1) { width: 50px; height: 50px; top: 120px; left: 120px; }
+  }
 </style>
