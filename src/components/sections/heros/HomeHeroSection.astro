@@ -76,11 +76,19 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     width: 520px;
     height: 520px;
     margin: 0 auto;
+    animation: 5s cluster-float ease infinite alternate;
+  }
+    @keyframes cluster-float {
+    0%{
+
+    }
+    100%{
+      transform: translateY(-5%);
+    }
   }
 	.hero-section__image-cluster :global(svg) {
 		position: absolute;
 		transition: transform 0.3s;
-		filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
 	}
   .hero-section__image-cluster :global(#svg-heart) {
     width: 180px;

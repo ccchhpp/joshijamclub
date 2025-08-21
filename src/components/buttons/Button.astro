@@ -31,9 +31,12 @@ const Tag = href ? 'a' : 'button';
     border: none;
     border-radius: var(--theme-button-border-radius);
     font-weight: 500;
+    transition: transform 0.18s, box-shadow 0.18s;
   }
   .btn:hover {
     background-color: var(--theme-primary-hover);
+    transform: scale(1.01);
+    box-shadow: 0 6px 24px 0 rgba(0,0,0,0.13);
   }
   .btn--unelevated {
     background-color: transparent;
