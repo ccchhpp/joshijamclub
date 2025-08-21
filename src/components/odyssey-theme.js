@@ -1,6 +1,5 @@
 // Core
 export { default as Container } from './core/Container.astro';
-export { default as SkipLink } from './core/SkipLink.astro';
 export { default as Header } from './Header.astro';
 export { default as Footer } from './Footer.astro';
 export { default as YouTubeEmbed } from './core/YouTubeEmbed.astro';
