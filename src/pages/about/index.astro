@@ -1,20 +1,19 @@
 ---
 import { FlowerFill, HeartFill, SparkleFill, StarFill, TextSection } from '@components/odyssey-theme';
 import Layout from '../../layouts/Page.astro';
-import HeroSection from '../../components/sections/heros/HeroSection.astro';
 
 const seo = {
-	title: 'About | Joshi Jam',
-	description: 'About Page',
+	title: 'About Us | Joshi Jam',
+	description: 'About Us Page',
 };
 ---
 
 <Layout {seo}>
-	<HeroSection>
-		<div slot="text-container">
-			<h1>About Us</h1>
-			<p>
-				Joshi Jam is a team of passionate fans based in Southern California dedicated to bringing the fun of community back into fandom events. We welcome all joshi (and danshi) to come embrace their interests, no matter how niche.
+  <section class="hero-section__section">
+    <div class="hero-section__text">
+      <h1>About Us</h1>
+      <p>
+        Joshi Jam is a team of passionate fans based in Southern California dedicated to bringing the fun of community back into fandom events. We welcome all joshi (and danshi) to come embrace their interests, no matter how niche.
         <br><br>
         Fujoshi? Himejoshi? Yumejoshi? No problem!
         <br><br>
@@ -27,32 +26,92 @@ const seo = {
         <i>Joshi</i> (女子) - Japanese for young woman
         <br>
         <i>Danshi</i> (男子) - Japanese for young man
-			</p>
-		</div>
-    <div slot="image-container">
-      <div class="about-image-cluster">
-        <HeartFill id="about-svg-heart" />
-        <FlowerFill id="about-svg-flower" />
-        <SparkleFill id="about-svg-sparkle" />
-        <StarFill id="about-svg-star" />
-        <SparkleFill id="about-svg-sparkle-alt1" />
-        <StarFill id="about-svg-star-alt1" />
-        <FlowerFill id="about-svg-flower-alt1" />
-        <HeartFill id="about-svg-heart-alt1" />
-        <SparkleFill id="about-svg-sparkle-alt2" />
-        <StarFill id="about-svg-star-alt2" />
-        <FlowerFill id="about-svg-flower-alt2" />
-        <HeartFill id="about-svg-heart-alt2" />
-        <SparkleFill id="about-svg-sparkle-alt3" />
-        <StarFill id="about-svg-star-alt3" />
-        <FlowerFill id="about-svg-flower-alt3" />
-        <HeartFill id="about-svg-heart-alt3" />
+      </p>
+    </div>
+    <div class="hero-section__image">
+      <div class="about-image-cluster-wrapper">
+        <div class="about-image-cluster">
+          <HeartFill id="about-svg-heart" />
+          <FlowerFill id="about-svg-flower" />
+          <SparkleFill id="about-svg-sparkle" />
+          <StarFill id="about-svg-star" />
+          <SparkleFill id="about-svg-sparkle-alt1" />
+          <StarFill id="about-svg-star-alt1" />
+          <FlowerFill id="about-svg-flower-alt1" />
+          <HeartFill id="about-svg-heart-alt1" />
+          <SparkleFill id="about-svg-sparkle-alt2" />
+          <StarFill id="about-svg-star-alt2" />
+          <FlowerFill id="about-svg-flower-alt2" />
+          <HeartFill id="about-svg-heart-alt2" />
+          <SparkleFill id="about-svg-sparkle-alt3" />
+          <StarFill id="about-svg-star-alt3" />
+          <FlowerFill id="about-svg-flower-alt3" />
+          <HeartFill id="about-svg-heart-alt3" />
+        </div>
+        <div class="about-image-overlay"></div>
       </div>
     </div>
-	</HeroSection>
+  </section>
 </Layout>
 
 <style>
+  .hero-section__section {
+    margin: var(--section-margin) auto;
+    min-height: clamp(90vh, 100vw, calc(100vh - var(--navbar-height)));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+  }
+  .hero-section__text {
+    justify-self: center;
+    max-width: 25rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-section__image {
+    display: flex;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 1100px) {
+    .hero-section__section {
+      margin: 2rem auto 0 auto;
+      grid-template-columns: 1fr;
+      min-height: 60vh;
+    }
+    .hero-section__image {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 95vw;
+      height: 100%;
+      transform: translateY(-50%);
+      z-index: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-section__image > :global(*) {
+      width: 95vw !important;
+      min-width: 95vw !important;
+      max-width: 95vw !important;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0 !important;
+      display: block;
+    }
+    .hero-section__text {
+      position: relative;
+      z-index: 2;
+      border-radius: var(--theme-shape-radius);
+      padding: 2rem 1rem;
+      margin: 0 auto;
+      max-width: 90vw;
+    }
+  }
   .about-image-cluster {
     position: relative;
     width: 720px;
@@ -309,28 +368,66 @@ const seo = {
     animation: float5 13s ease-in-out infinite alternate;
     animation-delay: -11s;
   }
-  @media (max-width: 768px) {
-    .about-image-cluster {
-      width: 320px;
-      height: 160px;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+  @media (max-width: 1100px) {
+    .hero-section__section {
+      margin: 2rem auto 0 auto;
+      grid-template-columns: 1fr;
     }
-    .about-image-cluster :global(#about-svg-heart) { width: 50px; height: 50px; top: 10px; left: 10px; }
-    .about-image-cluster :global(#about-svg-flower) { width: 36px; height: 36px; top: 0; left: 180px; }
-    .about-image-cluster :global(#about-svg-sparkle) { width: 24px; height: 24px; top: 80px; left: 30px; }
-    .about-image-cluster :global(#about-svg-star) { width: 22px; height: 22px; top: 40px; left: 260px; }
-    .about-image-cluster :global(#about-svg-sparkle-alt1) { width: 14px; height: 14px; top: 120px; left: 120px; }
-    .about-image-cluster :global(#about-svg-star-alt1) { width: 10px; height: 10px; top: 20px; left: 300px; }
-    .about-image-cluster :global(#about-svg-flower-alt1) { width: 18px; height: 18px; top: 90px; left: 270px; }
-    .about-image-cluster :global(#about-svg-heart-alt1) { width: 18px; height: 18px; top: 60px; left: 120px; }
-    .about-image-cluster :global(#about-svg-sparkle-alt2) { width: 10px; height: 10px; top: 140px; left: 40px; }
-    .about-image-cluster :global(#about-svg-star-alt2) { width: 8px; height: 8px; top: 60px; left: 320px; }
-    .about-image-cluster :global(#about-svg-flower-alt2) { width: 10px; height: 10px; top: 140px; left: 270px; }
-    .about-image-cluster :global(#about-svg-heart-alt2) { width: 10px; height: 10px; top: 80px; left: 180px; }
-    .about-image-cluster :global(#about-svg-sparkle-alt3) { width: 8px; height: 8px; top: 40px; left: 60px; }
-    .about-image-cluster :global(#about-svg-star-alt3) { width: 6px; height: 6px; top: 140px; left: 320px; }
-    .about-image-cluster :global(#about-svg-flower-alt3) { width: 8px; height: 8px; top: 20px; left: 200px; }
-    .about-image-cluster :global(#about-svg-heart-alt3) { width: 8px; height: 8px; top: 140px; left: 100px; }
+    .hero-section__text {
+      background: transparent !important;
+    }
+    .about-image-cluster-wrapper {
+      position: absolute;
+      inset: 0;
+      width: 95%;
+      height: 100%;
+      min-width: 95%;
+      min-height: 100%;
+      max-width: 95%;
+      max-height: 100%;
+      margin: 0;
+      left: 0;
+      top: 0;
+      transform: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .about-image-cluster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .about-image-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.7);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .about-image-cluster :global(svg) {
+      position: absolute;
+      pointer-events: none;
+    }
+    .about-image-cluster :global(#about-svg-heart) { width: 28%; height: 28%; top: 8%; left: 2%; }
+    .about-image-cluster :global(#about-svg-flower) { width: 20%; height: 20%; top: 2%; left: 60%; }
+    .about-image-cluster :global(#about-svg-sparkle) { width: 12%; height: 12%; top: 60%; left: 8%; }
+    .about-image-cluster :global(#about-svg-star) { width: 14%; height: 14%; top: 30%; left: 80%; }
+    .about-image-cluster :global(#about-svg-sparkle-alt1) { width: 9%; height: 9%; top: 80%; left: 60%; }
+    .about-image-cluster :global(#about-svg-star-alt1) { width: 7%; height: 7%; top: 4%; left: 90%; }
+    .about-image-cluster :global(#about-svg-flower-alt1) { width: 10%; height: 10%; top: 70%; left: 80%; }
+    .about-image-cluster :global(#about-svg-heart-alt1) { width: 10%; height: 10%; top: 50%; left: 40%; }
+    .about-image-cluster :global(#about-svg-sparkle-alt2) { width: 6%; height: 6%; top: 90%; left: 8%; }
+    .about-image-cluster :global(#about-svg-star-alt2) { width: 5%; height: 5%; top: 60%; left: 95%; }
+    .about-image-cluster :global(#about-svg-flower-alt2) { width: 6%; height: 6%; top: 90%; left: 80%; }
+    .about-image-cluster :global(#about-svg-heart-alt2) { width: 6%; height: 6%; top: 60%; left: 56%; }
+    .about-image-cluster :global(#about-svg-sparkle-alt3) { width: 5%; height: 5%; top: 20%; left: 16%; }
+    .about-image-cluster :global(#about-svg-star-alt3) { width: 4%; height: 4%; top: 90%; left: 95%; }
+    .about-image-cluster :global(#about-svg-flower-alt3) { width: 5%; height: 5%; top: 8%; left: 70%; }
+    .about-image-cluster :global(#about-svg-heart-alt3) { width: 5%; height: 5%; top: 90%; left: 30%; }
   }
 </style>
