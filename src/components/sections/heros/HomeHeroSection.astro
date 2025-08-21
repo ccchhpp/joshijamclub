@@ -76,15 +76,63 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     width: 520px;
     height: 520px;
     margin: 0 auto;
-    animation: 5s cluster-float ease infinite alternate;
   }
-    @keyframes cluster-float {
-    0%{
-
-    }
-    100%{
-      transform: translateY(-5%);
-    }
+  /* Keyframes for organic floating movement */
+  @keyframes hero-float1 {
+    0% { transform: translateY(0) translateX(0) scale(1) rotate(-18deg); }
+    20% { transform: translateY(-18px) translateX(3px) scale(1.01) rotate(-10deg); }
+    50% { transform: translateY(-32px) translateX(-2px) scale(1.01) rotate(-2deg); }
+    80% { transform: translateY(-14px) translateX(2px) scale(1.01) rotate(-10deg); }
+    100% { transform: translateY(0) translateX(0) scale(1) rotate(-18deg); }
+  }
+  @keyframes hero-float2 {
+    0% { transform: translateY(0) translateX(0) scale(0.95) rotate(25deg); }
+    20% { transform: translateY(-22px) translateX(-4px) scale(0.96) rotate(37deg); }
+    50% { transform: translateY(-36px) translateX(5px) scale(0.94) rotate(49deg); }
+    80% { transform: translateY(-13px) translateX(-3px) scale(0.97) rotate(37deg); }
+    100% { transform: translateY(0) translateX(0) scale(0.95) rotate(25deg); }
+  }
+  @keyframes hero-float3 {
+    0% { transform: translateY(0) translateX(0) scale(1.1) rotate(-44deg); }
+    20% { transform: translateY(-8px) translateX(2px) scale(1.11) rotate(-32deg); }
+    50% { transform: translateY(-28px) translateX(-3px) scale(1.09) rotate(-20deg); }
+    80% { transform: translateY(-12px) translateX(2px) scale(1.1) rotate(-32deg); }
+    100% { transform: translateY(0) translateX(0) scale(1.1) rotate(-44deg); }
+  }
+  @keyframes hero-float4 {
+    0% { transform: translateY(0) translateX(0) scale(1.05) rotate(48deg); }
+    20% { transform: translateY(-12px) translateX(-1px) scale(1.06) rotate(60deg); }
+    50% { transform: translateY(-29px) translateX(3px) scale(1.04) rotate(72deg); }
+    80% { transform: translateY(-10px) translateX(1px) scale(1.05) rotate(60deg); }
+    100% { transform: translateY(0) translateX(0) scale(1.05) rotate(48deg); }
+  }
+  @keyframes hero-float5 {
+    0% { transform: translateY(0) translateX(0) scale(0.9) rotate(2deg); }
+    20% { transform: translateY(-10px) translateX(1px) scale(0.91) rotate(14deg); }
+    50% { transform: translateY(-25px) translateX(-1px) scale(0.89) rotate(26deg); }
+    80% { transform: translateY(-8px) translateX(1px) scale(0.9) rotate(14deg); }
+    100% { transform: translateY(0) translateX(0) scale(0.9) rotate(2deg); }
+  }
+  @keyframes hero-float6 {
+    0% { transform: translateY(0) translateX(0) scale(1.2) rotate(-30deg); }
+    20% { transform: translateY(-13px) translateX(2px) scale(1.22) rotate(-18deg); }
+    50% { transform: translateY(-32px) translateX(-2px) scale(1.18) rotate(-6deg); }
+    80% { transform: translateY(-12px) translateX(1px) scale(1.2) rotate(-18deg); }
+    100% { transform: translateY(0) translateX(0) scale(1.2) rotate(-30deg); }
+  }
+  @keyframes hero-float7 {
+    0% { transform: translateY(0) translateX(0) scale(0.8) rotate(10deg); }
+    20% { transform: translateY(-8px) translateX(2px) scale(0.82) rotate(22deg); }
+    50% { transform: translateY(-22px) translateX(-2px) scale(0.78) rotate(34deg); }
+    80% { transform: translateY(-7px) translateX(1px) scale(0.8) rotate(22deg); }
+    100% { transform: translateY(0) translateX(0) scale(0.8) rotate(10deg); }
+  }
+  @keyframes hero-float8 {
+    0% { transform: translateY(0) translateX(0) scale(1.05) rotate(-60deg); }
+    20% { transform: translateY(-10px) translateX(2px) scale(1.07) rotate(-48deg); }
+    50% { transform: translateY(-28px) translateX(-2px) scale(1.03) rotate(-36deg); }
+    80% { transform: translateY(-8px) translateX(1px) scale(1.05) rotate(-48deg); }
+    100% { transform: translateY(0) translateX(0) scale(1.05) rotate(-60deg); }
   }
 	.hero-section__image-cluster :global(svg) {
 		position: absolute;
@@ -96,8 +144,9 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 80px;
     left: 40px;
     z-index: 2;
-    transform: rotate(-8deg);
     color: var(--theme-surface-1);
+    animation: hero-float1 12s ease-in-out infinite alternate;
+    animation-delay: -10s;
   }
   .hero-section__image-cluster :global(#svg-flower) {
     width: 140px;
@@ -105,8 +154,9 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 10px;
     left: 240px;
     z-index: 3;
-    transform: rotate(12deg);
     color: var(--theme-surface-2);
+    animation: hero-float2 14s ease-in-out infinite alternate;
+    animation-delay: -12s;
   }
   .hero-section__image-cluster :global(#svg-sparkle) {
     width: 110px;
@@ -114,8 +164,9 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 340px;
     left: 100px;
     z-index: 1;
-    transform: rotate(-18deg);
     color: var(--theme-surface-2);
+    animation: hero-float3 16s ease-in-out infinite alternate;
+    animation-delay: -16s;
   }
   .hero-section__image-cluster :global(#svg-star) {
     width: 100px;
@@ -123,19 +174,20 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 200px;
     left: 370px;
     z-index: 4;
-    transform: rotate(20deg);
     color: var(--theme-surface-1);
+    animation: hero-float4 13s ease-in-out infinite alternate;
+    animation-delay: -8s;
   }
-  /* Alternate/extra SVGs for more visual interest */
   .hero-section__image-cluster :global(#svg-sparkle-alt1) {
     width: 60px;
     height: 60px;
     top: 420px;
     left: 320px;
     z-index: 2;
-    transform: rotate(8deg);
     color: var(--theme-surface-2);
     opacity: 0.7;
+    animation: hero-float5 11s ease-in-out infinite alternate;
+    animation-delay: -7s;
   }
   .hero-section__image-cluster :global(#svg-star-alt1) {
     width: 50px;
@@ -143,9 +195,10 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 60px;
     left: 400px;
     z-index: 2;
-    transform: rotate(-12deg);
     color: var(--theme-surface-1);
     opacity: 0.7;
+    animation: hero-float6 13s ease-in-out infinite alternate;
+    animation-delay: -9s;
   }
   .hero-section__image-cluster :global(#svg-flower-alt1) {
     width: 80px;
@@ -153,9 +206,10 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 350px;
     left: 420px;
     z-index: 2;
-    transform: rotate(24deg);
     color: var(--theme-surface-2);
     opacity: 0.7;
+    animation: hero-float7 15s ease-in-out infinite alternate;
+    animation-delay: -11s;
   }
   .hero-section__image-cluster :global(#svg-heart-alt1) {
     width: 100px;
@@ -163,18 +217,21 @@ import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from 
     top: 240px;
     left: 210px;
     z-index: 1;
-    transform: rotate(12deg);
     color: var(--theme-surface-1);
     opacity: 0.7;
+    animation: hero-float8 12s ease-in-out infinite alternate;
+    animation-delay: -8s;
   }
   @media (max-width: 768px) {
     .hero-section__section {
       grid-template-columns: 1fr;
+      margin-bottom: 0;
     }
     .hero-section__image-cluster {
       width: 320px;
       height: 320px;
       margin-top:2rem;
+      
     }
     .hero-section__image-cluster :global(#svg-heart) { width: 80px; height: 80px; top: 24px; left: 10px; }
     .hero-section__image-cluster :global(#svg-flower) { width: 60px; height: 60px; top: 0; left: 170px; }
