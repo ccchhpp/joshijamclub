@@ -44,10 +44,15 @@ const image = new URL(Astro.props.image || './social.png', Astro.site);
 <!-- Font -->
 <link rel="stylesheet" href="https://use.typekit.net/kqb8lfz.css">
 
-<!-- Google Analytics -->
-<script>
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3SGBCH9VBQ"></script>
+<script is:inline>
   var host = window.location.hostname;
   if(host != 'localhost') {
-    // Place Google Analytics code here.
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-3SGBCH9VBQ');
   }
 </script>
