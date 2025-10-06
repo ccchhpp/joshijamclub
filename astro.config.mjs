@@ -11,5 +11,8 @@ export default defineConfig({
   integrations: [sitemap(), mdx(), lit(), icon()], // Add renderers to the config
   security: {
     checkOrigin: false
+  },
+  redirects: {
+    "/google": "https://google.com",
   }
 });

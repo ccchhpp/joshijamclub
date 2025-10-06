@@ -10,3 +10,9 @@ On deploy the development server by running:
 ```bash
 npm start
 ```
+
+## Redirects/Link Shortening
+Add a link redirect by editing the redirects section in:
+```bash
+astro.config.mjs
+```
