@@ -8,6 +8,7 @@ import settings from '../../config/settings.js';
   <FormInput type="hidden" name="FormName" value="Joshi Jam Contact Form"></FormInput>
   <FormInput type="text" label="Name" name="Name" placeholder="Roy Mustang" />
   <FormInput type="email" label="Email" name="Email" placeholder="flame@alchemist.com" />
+  <input class="bee" type="text" name="Subject" placeholder="Subject" tabindex="-1" autocomplete="off" aria-hidden="true"/>
   <FormTextarea label="Message" name="Message" placeholder="Your message here..." />
   <Button id="submit-btn" type="submit">Submit</Button>
   <div id="form-message" class="form-message"></div>
@@ -17,12 +18,19 @@ import settings from '../../config/settings.js';
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const messageDiv = document.getElementById('form-message');
+  const subjectField = form.querySelector('input[name="Subject"]');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
     messageDiv.textContent = '';
     messageDiv.className = 'form-message';
+
+    if (subjectField?.value?.trim()) {
+      submitBtn.disabled = false;
+      return;
+    }
+
     const formData = new FormData(form);
     try {
       const response = await fetch(form.action, {
@@ -52,6 +60,14 @@ import settings from '../../config/settings.js';
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+  .bee {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
   }
   .form-message {
     min-height: 1.5em;
