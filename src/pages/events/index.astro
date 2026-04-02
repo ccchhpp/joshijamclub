@@ -7,23 +7,62 @@ import {
 } from '@components/odyssey-theme';
 import Layout from '../../layouts/Page.astro';
 
-const posts = await Astro.glob('./posts/*.mdx').then(posts =>
-	posts
-		.map(({ frontmatter, url }) => ({
-			title: frontmatter.title,
-			description: frontmatter.description,
-			authors: frontmatter.authors,
-			eventDate: parse(frontmatter.eventDate, 'MMMM d, yyyy', new Date()),
-			featuredImage: frontmatter.featuredImage,
-			excerpt: frontmatter.excerpt,
-			href: url,
-		}))
-		.sort((a, b) => {
-			if (isBefore(a.eventDate, b.eventDate)) return 1;
-			if (isBefore(b.eventDate, a.eventDate)) return -1;
-			return 0;
-		})
-);
+type EventFrontmatter = {
+	title: string;
+	description: string;
+	authors?: string[];
+	eventDate: string;
+	featuredImage?: string;
+	excerpt?: string;
+};
+
+type EventEntry = {
+	frontmatter: EventFrontmatter;
+	url?: string;
+};
+
+function toFlatEventHref(url?: string) {
+	if (!url) return undefined;
+	const segments = url.split('/').filter(Boolean);
+	const slug = segments[segments.length - 1];
+	return slug ? `/events/${slug}/` : undefined;
+}
+
+let rawUpcoming: EventEntry[] = [];
+try { rawUpcoming = await Astro.glob('./upcoming/*.mdx'); } catch (_) {}
+const upcoming = rawUpcoming
+	.map(({ frontmatter, url }) => ({
+		title: frontmatter.title,
+		description: frontmatter.description,
+		authors: frontmatter.authors,
+		eventDate: parse(frontmatter.eventDate, 'MMMM d, yyyy', new Date()),
+		featuredImage: frontmatter.featuredImage,
+		excerpt: frontmatter.excerpt,
+		href: toFlatEventHref(url),
+	}))
+	.sort((a, b) => {
+		if (isBefore(a.eventDate, b.eventDate)) return 1;
+		if (isBefore(b.eventDate, a.eventDate)) return -1;
+		return 0;
+	});
+
+let rawPast: EventEntry[] = [];
+try { rawPast = await Astro.glob('./past/*.mdx'); } catch (_) {}
+const past = rawPast
+	.map(({ frontmatter, url }) => ({
+		title: frontmatter.title,
+		description: frontmatter.description,
+		authors: frontmatter.authors,
+		eventDate: parse(frontmatter.eventDate, 'MMMM d, yyyy', new Date()),
+		featuredImage: frontmatter.featuredImage,
+		excerpt: frontmatter.excerpt,
+		href: toFlatEventHref(url),
+	}))
+	.sort((a, b) => {
+		if (isBefore(a.eventDate, b.eventDate)) return 1;
+		if (isBefore(b.eventDate, a.eventDate)) return -1;
+		return 0;
+	});
 
 const seo = {
 	title: 'Events | Joshi Jam',
@@ -35,8 +74,23 @@ const seo = {
 	<Container>
 		<section class="event-posts-list__section">
 			<h1>Upcoming Jams</h1>
-			<EventPostsList posts={posts} />
+			{upcoming.length > 0 ? (
+				<EventPostsList posts={upcoming} />
+			) : (
+				<p>No upcoming jams at this time. Check back soon!</p>
+			)}
 		</section>
+		<section class="event-posts-list__section">
+			{past.length > 0 ? (
+				<>
+					<h1>Past Jams</h1>
+					<EventPostsList posts={past} />
+				</>
+			) : (
+				<p></p>
+			)}
+		</section>
+
 	</Container>
 </Layout>
 

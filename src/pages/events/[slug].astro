@@ -1,0 +1,44 @@
+---
+// Render events from both legacy folders at flat /events/<slug>/ URLs.
+
+import type { GetStaticPaths } from 'astro';
+
+type EventPageModule = {
+	url?: string;
+	default: unknown;
+};
+
+type StaticPath = {
+	params: { slug: string };
+	props: { slug: string };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+	const allEvents = (await Astro.glob('./{upcoming,past}/*.mdx')) as EventPageModule[];
+
+	return allEvents
+		.map((entry) => {
+			if (!entry.url) return null;
+			const segments = entry.url.split('/').filter(Boolean);
+			const slug = segments[segments.length - 1] ?? null;
+			if (!slug) return null;
+
+			return {
+				params: { slug },
+				props: { slug },
+			};
+		})
+		.filter((entry): entry is StaticPath => entry !== null);
+};
+
+const allEvents = (await Astro.glob('./{upcoming,past}/*.mdx')) as EventPageModule[];
+const { slug } = Astro.props;
+const match = allEvents.find((entry) => {
+	if (!entry.url) return false;
+	const segments = entry.url.split('/').filter(Boolean);
+	return (segments[segments.length - 1] ?? null) === slug;
+});
+const EventPage = match?.default as any;
+---
+
+<EventPage />
