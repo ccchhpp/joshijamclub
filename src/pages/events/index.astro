@@ -29,7 +29,7 @@ function toFlatEventHref(url?: string) {
 }
 
 let rawUpcoming: EventEntry[] = [];
-try { rawUpcoming = await Astro.glob('./upcoming/*.mdx'); } catch (_) {}
+try { rawUpcoming = Object.values(import.meta.glob('./upcoming/*.mdx', { eager: true })); } catch (_) {}
 const upcoming = rawUpcoming
 	.map(({ frontmatter, url }) => ({
 		title: frontmatter.title,
@@ -47,7 +47,7 @@ const upcoming = rawUpcoming
 	});
 
 let rawPast: EventEntry[] = [];
-try { rawPast = await Astro.glob('./past/*.mdx'); } catch (_) {}
+try { rawPast = Object.values(import.meta.glob('./past/*.mdx', { eager: true })); } catch (_) {}
 const past = rawPast
 	.map(({ frontmatter, url }) => ({
 		title: frontmatter.title,

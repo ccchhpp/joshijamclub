@@ -14,7 +14,8 @@ type StaticPath = {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const allEvents = (await Astro.glob('./{upcoming,past}/*.mdx')) as EventPageModule[];
+	const globModules = import.meta.glob('./{upcoming,past}/*.mdx', { eager: true });
+	const allEvents = Object.values(globModules) as EventPageModule[];
 
 	return allEvents
 		.map((entry) => {
@@ -31,7 +32,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 		.filter((entry): entry is StaticPath => entry !== null);
 };
 
-const allEvents = (await Astro.glob('./{upcoming,past}/*.mdx')) as EventPageModule[];
+	const globModules = import.meta.glob('./{upcoming,past}/*.mdx', { eager: true });
+	const allEvents = Object.values(globModules) as EventPageModule[];
 const { slug } = Astro.props;
 const match = allEvents.find((entry) => {
 	if (!entry.url) return false;
