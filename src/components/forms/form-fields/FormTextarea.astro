@@ -1,11 +1,28 @@
 ---
 
-const { label, name, placeholder, rows = 4, required} = Astro.props;
+const {
+  label,
+  name,
+  id = name,
+  placeholder,
+  rows = 4,
+  required,
+  minlength,
+  maxlength,
+} = Astro.props;
 ---
 
 <div class="form-field__container">
   {label && <label for={name}>{label}</label>}
-  <textarea name={name} placeholder={placeholder} rows={rows} required={required}></textarea>
+  <textarea
+    name={name}
+    id={id}
+    placeholder={placeholder}
+    rows={rows}
+    required={required}
+    minlength={minlength}
+    maxlength={maxlength}
+  ></textarea>
 </div>
 
 <style>

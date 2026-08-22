@@ -1,6 +1,8 @@
 ---
-import { Button, Container, TextCardSection } from '@components/odyssey-theme';
-import Layout from '../layouts/Page.astro';
+import Button from '../components/buttons/Button.astro';
+import Container from '../components/core/Container.astro';
+import TextCardSection from '../components/sections/TextCardSection.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 
 const seo = {
 	title: 'Joshi Jam',
@@ -8,7 +10,7 @@ const seo = {
 };
 ---
 
-<Layout {seo}>
+<SiteLayout {seo}>
 	<Container>
 		<TextCardSection>
 			<h1>404</h1>
@@ -18,7 +20,7 @@ const seo = {
 			</div>
 		</TextCardSection>
 	</Container>
-</Layout>
+</SiteLayout>
 
 <style>
 	.cta-buttons__container {

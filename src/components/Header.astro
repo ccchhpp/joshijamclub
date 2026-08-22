@@ -5,43 +5,56 @@ const { navData, rightMenu } = Astro.props;
 
 <script type="module">
   const bodyElement = document.querySelector('body');
-  const menuButton = document.querySelector('#menuButton')
-  const navHeader = document.querySelector('#odysseyNavHeader');
+  const menuButton = document.querySelector('#menuButton');
+  const siteHeader = document.querySelector('#siteHeader');
   const menuButtonIconHam = document.querySelector('#menuButtonIconHam');
   const menuButtonIconClose = document.querySelector('#menuButtonIconClose');
+  const menuLinks = siteHeader.querySelectorAll('nav a');
   let scrollPosition = 0;
 
-  menuButton.addEventListener('click', toggleMenu)
+  menuButton.addEventListener('click', () => {
+    setMenuState(!siteHeader.hasAttribute('mobile-menu-open'));
+  });
 
-  function toggleMenu() {
-    menuButtonIconHam.toggleAttribute('hidden');
-    menuButtonIconClose.toggleAttribute('hidden');
-    
-    if (navHeader.hasAttribute('mobile-menu-open', true)) {
-      menuButton.title = "Open Main Menu"
-      // unlock scroll position
+  menuLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      if (siteHeader.hasAttribute('mobile-menu-open')) setMenuState(false);
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && siteHeader.hasAttribute('mobile-menu-open')) {
+      setMenuState(false);
+      menuButton.focus();
+    }
+  });
+
+  function setMenuState(isOpen) {
+    menuButtonIconHam.toggleAttribute('hidden', isOpen);
+    menuButtonIconClose.toggleAttribute('hidden', !isOpen);
+    menuButton.title = isOpen ? 'Close Main Menu' : 'Open Main Menu';
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    siteHeader.toggleAttribute('mobile-menu-open', isOpen);
+
+    if (isOpen) {
+      scrollPosition = window.scrollY;
+      bodyElement.style.overflow = 'hidden';
+      bodyElement.style.position = 'fixed';
+      bodyElement.style.top = `-${scrollPosition}px`;
+      bodyElement.style.width = '100%';
+    } else {
       bodyElement.style.removeProperty('overflow');
       bodyElement.style.removeProperty('position');
       bodyElement.style.removeProperty('top');
       bodyElement.style.removeProperty('width');
       window.scrollTo(0, scrollPosition);
-    } else {
-      menuButton.title = "Close Main Menu"
-      // lock scroll position
-      scrollPosition = window.pageYOffset;
-      bodyElement.style.overflow = 'hidden';
-      bodyElement.style.position = 'fixed';
-      bodyElement.style.top = `-${scrollPosition}px`;
-      bodyElement.style.width = '100%';
     }
-    
-    navHeader.toggleAttribute('mobile-menu-open');
   }
 </script>  
 
-<header id="odysseyNavHeader" class={`${rightMenu ? "header--right" : ``.trim()}`}>
+<header id="siteHeader" class={`${rightMenu ? "header--right" : ``.trim()}`}>
   <div class="header-logo-menu__container">
-  <button id="menuButton" title="Open Main Menu">
+  <button id="menuButton" title="Open Main Menu" aria-controls="mobileMainMenu" aria-expanded="false">
     <span id="menuButtonIconHam">
       <Icon name="ic:baseline-menu" width={24} height={24} />
     </span>
@@ -53,7 +66,7 @@ const { navData, rightMenu } = Astro.props;
     <img src="/assets/logo_sm.png" class="joshi-jam-logo" alt="Joshi Jam Logo">
   </a>
   </div>
-  <div class="header-nav__container">
+  <div id="mobileMainMenu" class="header-nav__container">
     <slot name="nav">
       {navData && <nav>
         <ul>
@@ -128,7 +141,7 @@ const { navData, rightMenu } = Astro.props;
     opacity: 1;
     text-decoration: underline;
   }
-  @media(max-width: 600px) {
+  @media(max-width: 768px) {
     #menuButton {
       display: block;  
       z-index: 100;

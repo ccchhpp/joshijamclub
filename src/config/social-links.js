@@ -1,4 +1,4 @@
-export const footerSocials = [
+export const socialLinks = [
   {
     name: 'Twitter',
     url: 'https://twitter.com/joshi_jam',

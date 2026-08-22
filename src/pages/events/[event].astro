@@ -1,0 +1,73 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Container from '../../components/core/Container.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { eventSlug } from '../../utils/events';
+
+export async function getStaticPaths() {
+	const events = await getCollection('events');
+	return events.map((event) => ({
+		params: { event: eventSlug(event) },
+		props: { event },
+	}));
+}
+
+const { event } = Astro.props as { event: CollectionEntry<'events'> };
+const { Content } = await render(event);
+const seo = {
+	title: event.data.title,
+	description: event.data.description,
+	image: event.data.featuredImage,
+};
+const hasEventFacts = Boolean(
+	event.data.venueName ||
+	event.data.venueAddress ||
+	event.data.eventDate ||
+	event.data.eventTime
+);
+---
+
+<SiteLayout {seo}>
+	<header class="event-header">
+		<a class="event-back-link" href="/events/">← All events</a>
+		<div class="event-hero">
+			<div class="event-image-wrap">
+				<img class="event-image" src={event.data.featuredImage} alt={event.data.title} />
+			</div>
+			<div class="event-summary">
+				<p class="event-status">{event.data.status === 'upcoming' ? 'Upcoming Jam' : 'Past Jam'}</p>
+				<h1>{event.data.title}</h1>
+				{hasEventFacts && (
+					<dl class="event-facts">
+						{(event.data.venueName || event.data.venueAddress) && (
+							<div class="event-fact">
+								<dt>Venue</dt>
+								<dd>
+									{event.data.venueName && <strong>{event.data.venueName}</strong>}
+									{event.data.venueAddress && <span>{event.data.venueAddress}</span>}
+								</dd>
+							</div>
+						)}
+						{event.data.eventDate && (
+							<div class="event-fact">
+								<dt>Date</dt>
+								<dd>{event.data.eventDate}</dd>
+							</div>
+						)}
+						{event.data.eventTime && (
+							<div class="event-fact">
+								<dt>Time</dt>
+								<dd>{event.data.eventTime}</dd>
+							</div>
+						)}
+					</dl>
+				)}
+			</div>
+		</div>
+	</header>
+	<Container narrow>
+		<article class="event-details">
+			<Content />
+		</article>
+	</Container>
+</SiteLayout>

@@ -1,6 +1,9 @@
 ---
-import { FlowerFill, HeartFill, SparkleFill, StarFill, TextSection } from '@components/odyssey-theme';
-import Layout from '../../layouts/Page.astro';
+import FlowerFill from '../../components/svg/FlowerFill.astro';
+import HeartFill from '../../components/svg/HeartFill.astro';
+import SparkleFill from '../../components/svg/SparkleFill.astro';
+import StarFill from '../../components/svg/StarFill.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 
 const seo = {
 	title: 'About Us | Joshi Jam',
@@ -8,10 +11,16 @@ const seo = {
 };
 ---
 
-<Layout {seo}>
+<SiteLayout {seo}>
   <section class="hero-section__section">
     <div class="hero-section__text">
-      <h1>About Us</h1>
+      <h1>
+        About Us
+        <span class="hero-heading__icons" aria-hidden="true">
+          <HeartFill class="hero-heading__icon hero-heading__icon--heart" />
+          <StarFill class="hero-heading__icon hero-heading__icon--star" />
+        </span>
+      </h1>
       <p>
         Joshi Jam is a team of passionate fans based in Southern California dedicated to bringing the fun of community back into fandom events. We welcome all joshi (and danshi) to come embrace their interests, no matter how niche.
         <br><br>
@@ -52,7 +61,7 @@ const seo = {
       </div>
     </div>
   </section>
-</Layout>
+</SiteLayout>
 
 <style>
   .hero-section__section {

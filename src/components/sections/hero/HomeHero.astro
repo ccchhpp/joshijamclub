@@ -1,14 +1,25 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Container, Button, SparkleFill, FlowerFill, HeartFill, StarFill } from '@components/odyssey-theme';
+import Button from '../../buttons/Button.astro';
+import Container from '../../core/Container.astro';
+import FlowerFill from '../../svg/FlowerFill.astro';
+import HeartFill from '../../svg/HeartFill.astro';
+import SparkleFill from '../../svg/SparkleFill.astro';
+import StarFill from '../../svg/StarFill.astro';
 ---
 
 <Container>
 	<section class="hero-section__section">
 		<div class="hero-section__text">
-				<h1>We create organically grown events.</h1>
-				<p>
-					Made by joshis for joshis ♡
+				<h1>
+					We create organically grown events.
+					<span class="hero-heading__icons" aria-hidden="true">
+						<HeartFill class="hero-heading__icon hero-heading__icon--heart" />
+						<StarFill class="hero-heading__icon hero-heading__icon--star" />
+					</span>
+				</h1>
+				<p class="hero-section__tagline">
+					Made by joshis for joshis <HeartFill class="hero-section__tagline-heart" aria-hidden="true" />
 				</p>
 				<div class="hero-btns__container">
 					<Button href="/events" customIcon

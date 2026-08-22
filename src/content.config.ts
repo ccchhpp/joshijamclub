@@ -1,15 +1,20 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const eventsCollection = defineCollection({
+	loader: glob({ pattern: '*.mdx', base: './src/content/events' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    eventDate: z.string(),
-    authors: z.array(z.string()).optional(),
-    featuredImage: z.string().optional(),
-    excerpt: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-    date: z.string().optional(),
+		venueName: z.string().optional(),
+		venueAddress: z.string().optional(),
+		eventDate: z.string().optional(),
+		eventTime: z.string().optional(),
+		sortDate: z.coerce.date(),
+		status: z.enum(['upcoming', 'past']),
+		featuredImage: z.string(),
+		excerpt: z.string(),
   }),
 });
 

@@ -1,9 +1,9 @@
 ---
-import BaseHeader from '@components/BaseHeader.astro';
-import type { Props as BaseHeadProps } from '@components/BaseHeader.astro';
+import SiteHead from '../components/SiteHead.astro';
+import type { Props as SiteHeadProps } from '../components/SiteHead.astro';
 
 export interface Props {
-	seo?: BaseHeadProps;
+	seo?: SiteHeadProps;
 }
 
 const { seo } = Astro.props;
@@ -11,7 +11,7 @@ const { seo } = Astro.props;
 
 <html lang="en">
 	<head>
-		<BaseHeader {...seo} />
+		<SiteHead {...seo} />
 	</head>
 	<body>
     <slot name="announcement-bar" />

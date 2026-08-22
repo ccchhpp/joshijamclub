@@ -1,101 +1,41 @@
 ---
-import { parse, isBefore } from 'date-fns';
-import {
-	Container,
-	TextCardSection,
-	EventPostsList,
-} from '@components/odyssey-theme';
-import Layout from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+import Container from '../../components/core/Container.astro';
+import EventGrid from '../../components/events/EventGrid.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { newestFirst, toEventCard } from '../../utils/events';
 
-type EventFrontmatter = {
-	title: string;
-	description: string;
-	authors?: string[];
-	eventDate: string;
-	featuredImage?: string;
-	excerpt?: string;
-};
-
-type EventEntry = {
-	frontmatter: EventFrontmatter;
-	url?: string;
-};
-
-function toFlatEventHref(url?: string) {
-	if (!url) return undefined;
-	const segments = url.split('/').filter(Boolean);
-	const slug = segments[segments.length - 1];
-	return slug ? `/events/${slug}/` : undefined;
-}
-
-let rawUpcoming: EventEntry[] = [];
-try { rawUpcoming = Object.values(import.meta.glob('./upcoming/*.mdx', { eager: true })); } catch (_) {}
-const upcoming = rawUpcoming
-	.map(({ frontmatter, url }) => ({
-		title: frontmatter.title,
-		description: frontmatter.description,
-		authors: frontmatter.authors,
-		eventDate: parse(frontmatter.eventDate, 'MMMM d, yyyy', new Date()),
-		featuredImage: frontmatter.featuredImage,
-		excerpt: frontmatter.excerpt,
-		href: toFlatEventHref(url),
-	}))
-	.sort((a, b) => {
-		if (isBefore(a.eventDate, b.eventDate)) return 1;
-		if (isBefore(b.eventDate, a.eventDate)) return -1;
-		return 0;
-	});
-
-let rawPast: EventEntry[] = [];
-try { rawPast = Object.values(import.meta.glob('./past/*.mdx', { eager: true })); } catch (_) {}
-const past = rawPast
-	.map(({ frontmatter, url }) => ({
-		title: frontmatter.title,
-		description: frontmatter.description,
-		authors: frontmatter.authors,
-		eventDate: parse(frontmatter.eventDate, 'MMMM d, yyyy', new Date()),
-		featuredImage: frontmatter.featuredImage,
-		excerpt: frontmatter.excerpt,
-		href: toFlatEventHref(url),
-	}))
-	.sort((a, b) => {
-		if (isBefore(a.eventDate, b.eventDate)) return 1;
-		if (isBefore(b.eventDate, a.eventDate)) return -1;
-		return 0;
-	});
+const allEvents = (await getCollection('events')).sort(newestFirst);
+const upcomingEvents = allEvents.filter((event) => event.data.status === 'upcoming').map(toEventCard);
+const pastEvents = allEvents.filter((event) => event.data.status === 'past').map(toEventCard);
 
 const seo = {
 	title: 'Events | Joshi Jam',
-	description: 'Joshi Jam Events Page',
+	description: 'Upcoming and past events organized by Joshi Jam.',
 };
 ---
 
-<Layout {seo}>
+<SiteLayout {seo}>
 	<Container>
-		<section class="event-posts-list__section">
+		<section class="event-list-section">
 			<h1>Upcoming Jams</h1>
-			{upcoming.length > 0 ? (
-				<EventPostsList posts={upcoming} />
+			{upcomingEvents.length > 0 ? (
+				<EventGrid events={upcomingEvents} />
 			) : (
-				<p>No upcoming jams at this time. Check back soon!</p>
+				<p class="event-empty-state">No upcoming jams at this time. Check back soon!</p>
 			)}
 		</section>
-		<section class="event-posts-list__section">
-			{past.length > 0 ? (
-				<>
-					<h1>Past Jams</h1>
-					<EventPostsList posts={past} />
-				</>
-			) : (
-				<p></p>
-			)}
-		</section>
-
+		{pastEvents.length > 0 && (
+			<section class="event-list-section">
+				<h1>Past Jams</h1>
+				<EventGrid events={pastEvents} />
+			</section>
+		)}
 	</Container>
-</Layout>
+</SiteLayout>
 
 <style>
-	.event-posts-list__section {
+	.event-list-section {
 		margin: var(--section-margin) auto;
 	}
 </style>

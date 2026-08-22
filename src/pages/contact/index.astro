@@ -1,8 +1,10 @@
 ---
 import ContactForm from '../../components/forms/ContactForm.astro';
-import Layout from '../../layouts/Page.astro';
-import { Container } from '@components/odyssey-theme';
-import settings from '../../config/settings.js';
+import Container from '../../components/core/Container.astro';
+import HeartFill from '../../components/svg/HeartFill.astro';
+import StarFill from '../../components/svg/StarFill.astro';
+import site from '../../config/site.js';
+import SiteLayout from '../../layouts/SiteLayout.astro';
 
 const seo = {
 	title: 'Contact | Joshi Jam',
@@ -10,27 +12,29 @@ const seo = {
 };
 ---
 
-<Layout seo={seo}>
+<SiteLayout seo={seo}>
 	<Container>
 		<section class="contact-hero__section">
 			<div class="contact-hero__text-section">
-				<h1>Contact Us</h1>
+				<h1>
+					Contact Us
+					<span class="hero-heading__icons hero-heading__icons--white" aria-hidden="true">
+						<HeartFill class="hero-heading__icon hero-heading__icon--heart" />
+						<StarFill class="hero-heading__icon hero-heading__icon--star" />
+					</span>
+				</h1>
 				<p>
 					Want us to organize your next event? Feel free to contact us with any questions or comments.
-          Fill out the form or email us directly at
+					Fill out the form or email us directly at
 				</p>
-				<div>
-					<p>
-            <a href={`mailto:${settings.email}`}>{settings.email}</a>
-					</p>
-				</div>
+				<a class="contact-hero__email" href={`mailto:${site.email}`}>{site.email}</a>
 			</div>
 			<div class="col-2__container">
 				<ContactForm />
 			</div>
 		</section>
 	</Container>
-</Layout>
+</SiteLayout>
 
 <style>
 	.contact-hero__section {
@@ -42,12 +46,19 @@ const seo = {
 	}
 	.contact-hero__text-section {
 		padding: 2rem;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		display: grid;
+		align-content: center;
+		gap: 1rem;
 		background-color: var(--theme-surface-1);
 		border-radius: var(--theme-shape-radius);
-    color: var(--theme-on-surface-1);
+		color: var(--theme-on-surface-1);
+	}
+	.contact-hero__text-section h1,
+	.contact-hero__text-section p {
+		margin: 0;
+	}
+	.contact-hero__email {
+		width: fit-content;
 	}
 	.col-2__container {
 		display: flex;

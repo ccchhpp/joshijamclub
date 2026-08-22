@@ -1,4 +1,4 @@
-export const nav = [
+export const navigationLinks = [
   {
 		title: 'Home',
 		slug: '/',

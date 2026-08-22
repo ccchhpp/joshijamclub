@@ -1,0 +1,53 @@
+---
+interface Props {
+	title: string;
+	excerpt: string;
+	featuredImage: string;
+	href: string;
+	eventDate?: string;
+}
+
+const { title, excerpt, featuredImage, href, eventDate } = Astro.props;
+---
+
+<li class="event-card">
+	<a href={href}>
+		<img src={featuredImage} alt="" loading="lazy" decoding="async" />
+		{eventDate && <p class="event-card__date">{eventDate}</p>}
+		<h3>{title}</h3>
+		<p>{excerpt}</p>
+		<span class="event-card__action">
+			View event <span aria-hidden="true">→</span>
+		</span>
+	</a>
+</li>
+
+<style>
+	.event-card img {
+		margin-bottom: 1rem;
+		border-radius: calc(var(--theme-shape-radius) / 2);
+		transition: border-radius var(--theme-transition);
+	}
+	.event-card:hover a {
+		transform: scale(1.04);
+		transition: transform var(--theme-transition);
+	}
+	.event-card a {
+		display: block;
+		padding: 20px;
+		border-radius: calc(var(--theme-shape-radius) / 2);
+		background-color: #f2f0ef;
+		color: #000;
+		text-decoration: none;
+	}
+	.event-card h3 {
+		margin: 0;
+	}
+	.event-card__date {
+		margin: 0 0 0.5rem;
+		font-size: 0.8rem;
+		font-weight: 800;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+</style>

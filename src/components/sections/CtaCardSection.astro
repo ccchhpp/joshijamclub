@@ -1,20 +1,20 @@
 ---
-import Container from '../core/Container.astro';
+import HeartFill from '../svg/HeartFill.astro';
 
 const {background, color} = Astro.props;
 ---
-<Container>
-  <section class="cta-card__section" style={background && `--section-bg:${background}; --section-color:${color}`}>
-    <div class="cta-card__container">
-      <slot></slot>
-    </div>
-  </section>
-</Container>
+<section class="cta-card__section" style={background && `--section-bg:${background}; --section-color:${color}`}>
+  <HeartFill class="cta-card__heart" aria-hidden="true" />
+  <div class="cta-card__container">
+    <slot></slot>
+  </div>
+</section>
 
 <style>
   .cta-card__section {
     --section-bg: var(--theme-surface-2);
     --section-color: var(--theme-on-surface-2);
+    width: min(calc(100% - 2rem), 1360px);
     margin: var(--section-margin) auto;
     padding: 2rem;
     background-color: var(--section-bg);

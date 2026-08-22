@@ -1,0 +1,15 @@
+---
+title: Your Event Name
+description: A short description used by search engines
+venueName: Venue Name
+venueAddress: 123 Example Street, Anaheim, CA 92804
+eventDate: Saturday, January 1, 2027
+eventTime: 11am-7pm
+sortDate: 2027-01-01
+status: upcoming
+featuredImage: '/events/your-event-name/banner.png'
+excerpt: 'A short summary shown on the events page.'
+---
+Write the main event description here. You can use blank lines to separate paragraphs.
+
+Add any ticket, schedule, accessibility, or contact details here.

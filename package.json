@@ -1,10 +1,10 @@
 {
-	"name": "odyssey-theme",
+	"name": "joshi-jam-club",
 	"version": "3.1.0",
-	"private": false,
+	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:treefarmstudio/odyssey-theme"
+		"url": "https://github.com/ccchhpp/joshijamclub"
 	},
 	"scripts": {
 		"dev": "astro dev",
@@ -14,16 +14,12 @@
 		"format": "npx prettier -w ."
 	},
 	"devDependencies": {
-		"@astrojs/lit": "^4.3.0",
 		"@astrojs/mdx": "^7.0.7",
 		"@astrojs/sitemap": "^3.7.3",
 		"@iconify-json/ic": "^1.2.4",
 		"@iconify-json/mdi": "^1.2.3",
-		"@webcomponents/template-shadowroot": "^0.2.1",
 		"astro": "^7.2.4",
 		"astro-icon": "^1.2.0",
-		"date-fns": "^4.4.0",
-		"lit": "^3.3.3",
 		"prettier-plugin-astro": "^0.14.1"
 	}
 }

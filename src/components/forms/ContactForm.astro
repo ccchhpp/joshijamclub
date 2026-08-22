@@ -1,33 +1,76 @@
 ---
-import { Button, FormInput, FormTextarea } from '@components/odyssey-theme';
-import settings from '../../config/settings.js';
+import Button from '../buttons/Button.astro';
+import FormInput from './form-fields/FormInput.astro';
+import FormTextarea from './form-fields/FormTextarea.astro';
+import site from '../../config/site.js';
 ---
 
 
-<form id="contact-form" name="Contact Form" method="POST" action={`https://formsubmit.tailofleaves.dev/submit/${settings.email}`}>
-  <FormInput type="hidden" name="FormName" value="Joshi Jam Contact Form"></FormInput>
-  <FormInput type="text" label="Name" name="Name" placeholder="Roy Mustang" />
-  <FormInput type="email" label="Email" name="Email" placeholder="flame@alchemist.com" />
-  <input class="bee" type="text" name="Subject" placeholder="Subject" tabindex="-1" autocomplete="off" aria-hidden="true"/>
-  <FormTextarea label="Message" name="Message" placeholder="Your message here..." />
+<form
+  id="contact-form"
+  name="Contact Form"
+  method="POST"
+  action={`https://formsubmit.tailofleaves.dev/submit/${site.email}`}
+  data-contact-email={site.email}
+>
+  <input type="hidden" name="FormName" value="Joshi Jam Contact Form" />
+  <input id="form-started-at" type="hidden" name="FormStartedAt" value="" />
+  <FormInput type="text" label="Name" name="Name" placeholder="Roy Mustang" autocomplete="name" required maxlength="80" />
+  <FormInput type="email" label="Email" name="Email" placeholder="flame@alchemist.com" autocomplete="email" required maxlength="254" />
+  <div class="contact-form__honeypot" aria-hidden="true">
+    <label for="contact-website">Leave this field empty</label>
+    <input id="contact-website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+  </div>
+  <FormTextarea label="Message" name="Message" placeholder="Your message here..." required minlength="10" maxlength="5000" />
   <Button id="submit-btn" type="submit">Submit</Button>
-  <div id="form-message" class="form-message"></div>
+  <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 </form>
 
 <script type="module">
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const messageDiv = document.getElementById('form-message');
-  const subjectField = form.querySelector('input[name="Subject"]');
+  const honeypotField = document.getElementById('contact-website');
+  const startedAtField = document.getElementById('form-started-at');
+  const contactEmail = form.dataset.contactEmail;
+
+  const resetStartTime = () => {
+    startedAtField.value = String(Date.now());
+  };
+
+  const showSuccess = () => {
+    messageDiv.textContent = 'Thank you! Your message has been sent.';
+    messageDiv.className = 'form-message success';
+  };
+
+  const showError = () => {
+    const emailLink = document.createElement('a');
+    emailLink.href = `mailto:${contactEmail}`;
+    emailLink.textContent = contactEmail;
+    messageDiv.replaceChildren(
+      document.createTextNode('Sorry, there was an error sending your message. Please email us instead at '),
+      emailLink,
+      document.createTextNode('.')
+    );
+    messageDiv.className = 'form-message error';
+  };
+
+  resetStartTime();
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
+    form.setAttribute('aria-busy', 'true');
     messageDiv.textContent = '';
     messageDiv.className = 'form-message';
 
-    if (subjectField?.value?.trim()) {
+    const elapsedTime = Date.now() - Number(startedAtField.value);
+    if (honeypotField.value.trim() || elapsedTime < 2000) {
+      showSuccess();
+      form.reset();
+      resetStartTime();
       submitBtn.disabled = false;
+      form.removeAttribute('aria-busy');
       return;
     }
 
@@ -39,18 +82,17 @@ import settings from '../../config/settings.js';
         headers: { 'Accept': 'application/json' }
       });
       if (response.ok) {
-        messageDiv.innerHTML = 'Thank you! Your message has been sent.';
-        messageDiv.classList.add('success');
+        showSuccess();
         form.reset();
+        resetStartTime();
       } else {
-        messageDiv.innerHTML = `Sorry, there was an error sending your message.<br>Please send us an email instead at <a href="mailto:${settings.email}">${settings.email}</a>`;
-        messageDiv.classList.add('error');
+        showError();
       }
     } catch (err) {
-      messageDiv.innerHTML = `Sorry, there was an error sending your message.<br>Please send us an email instead at <a href="mailto:${settings.email}">${settings.email}</a>`;
-      messageDiv.classList.add('error');
+      showError();
     } finally {
       submitBtn.disabled = false;
+      form.removeAttribute('aria-busy');
     }
   });
 </script>
@@ -61,13 +103,14 @@ import settings from '../../config/settings.js';
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  .bee {
+  .contact-form__honeypot {
     position: absolute;
-    left: -9999px;
     width: 1px;
     height: 1px;
-    opacity: 0;
-    pointer-events: none;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .form-message {
     min-height: 1.5em;
