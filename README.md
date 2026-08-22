@@ -2,16 +2,16 @@
 
 ## Add or edit an event
 
-Events live in [`src/content/events`](src/content/events). Open that folder and follow its README for a copy-and-edit template.
+Events are set in [`src/content/events`](src/content/events).
 
-The main steps are:
+Steps:
 
 1. Copy `src/content/events/EVENT_TEMPLATE.mdx.example` and rename the copy with an `.mdx` ending.
 2. Fill in the event information at the top of the new file.
 3. Put the event image at `public/events/your-event-name/banner.png`.
 4. Write the event details below the second `---` line.
 
-The filename controls the page address. For example, `summer-cupsleeve.mdx` creates `/events/summer-cupsleeve/`.
+The filename controls the page address. For example, `summer-event.mdx` creates `/events/summer-event/`.
 
 To move an event from Upcoming Jams to Past Jams, change:
 

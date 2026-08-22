@@ -5,7 +5,7 @@ Each `.mdx` file in this folder is one event. The filename becomes the event's w
 ## Add an event
 
 1. Copy `EVENT_TEMPLATE.mdx.example`.
-2. Rename the copy to something descriptive ending in `.mdx`, such as `summer-cupsleeve.mdx`.
+2. Rename the copy to something descriptive ending in `.mdx`, such as `summer-event.mdx`.
 3. Add a folder with the same name under `public/events/` and place the event image there as `banner.png`.
 4. Fill in the fields at the top of the event file.
 5. Write the event details below the second `---` line.
