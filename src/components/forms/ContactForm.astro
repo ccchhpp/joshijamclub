@@ -21,7 +21,7 @@ import site from '../../config/site.js';
     <label for="contact-website">Leave this field empty</label>
     <input id="contact-website" type="text" name="Website" tabindex="-1" autocomplete="off" />
   </div>
-  <FormTextarea label="Message" name="Message" placeholder="Your message here..." required minlength="10" maxlength="5000" />
+  <FormTextarea label="Message" name="Message" placeholder="Your message here..." required minlength="1" />
   <Button id="submit-btn" type="submit">Submit</Button>
   <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 </form>
