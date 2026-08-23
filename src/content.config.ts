@@ -13,7 +13,6 @@ const eventsCollection = defineCollection({
 		eventTime: z.string().optional(),
 		sortDate: z.coerce.date(),
 		status: z.enum(['upcoming', 'past']),
-		featuredImage: z.string(),
 		excerpt: z.string(),
   }),
 });

@@ -7,7 +7,6 @@ eventDate: Saturday, January 1, 2027
 eventTime: 11am-7pm
 sortDate: 2027-01-01
 status: upcoming
-featuredImage: '/events/your-event-name/banner.png'
 excerpt: 'A short summary shown on the events page.'
 ---
 Write the main event description here. You can use blank lines to separate paragraphs.

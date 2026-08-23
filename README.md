@@ -8,8 +8,9 @@ Steps:
 
 1. Copy `src/content/events/EVENT_TEMPLATE.mdx.example` and rename the copy with an `.mdx` ending.
 2. Fill in the event information at the top of the new file.
-3. Put the event image at `public/events/your-event-name/banner.png`.
-4. Write the event details below the second `---` line.
+3. Put the featured event image at `public/events/your-event-name/featured.png`.
+4. Put any optional gallery images in that same folder.
+5. Write the event details below the second `---` line.
 
 The filename controls the page address. For example, `summer-event.mdx` creates `/events/summer-event/`.
 

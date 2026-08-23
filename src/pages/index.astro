@@ -13,11 +13,11 @@ import StarFill from '../components/svg/StarFill.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { newestFirst, toEventCard } from '../utils/events';
 
-const upcomingEvents = (await getCollection('events'))
+const upcomingEventEntries = (await getCollection('events'))
 	.filter((event) => event.data.status === 'upcoming')
 	.sort(newestFirst)
-	.slice(0, 2)
-	.map(toEventCard);
+	.slice(0, 2);
+const upcomingEvents = await Promise.all(upcomingEventEntries.map(toEventCard));
 ---
 
 

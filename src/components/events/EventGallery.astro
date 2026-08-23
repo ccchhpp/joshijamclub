@@ -1,0 +1,365 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+	images: string[];
+	eventTitle: string;
+}
+
+const { images, eventTitle } = Astro.props as Props;
+const useGalleryLayout = images.length > 2;
+const imageAlt = (index: number) => `${eventTitle} gallery image ${index + 1}`;
+---
+
+<div
+	class:list={['event-gallery', { 'event-gallery--compact': !useGalleryLayout }]}
+	data-event-gallery
+>
+	{useGalleryLayout && <h2>Event Gallery</h2>}
+	<div class="event-gallery__images">
+		{images.map((image, index) => (
+			<button
+				class="event-gallery__button"
+				type="button"
+				aria-label={`Open image ${index + 1} of ${images.length}`}
+				data-gallery-trigger
+				data-gallery-index={index}
+				data-gallery-src={image}
+				data-gallery-alt={imageAlt(index)}
+			>
+				<img
+					class="event-gallery__image"
+					src={image}
+					alt={imageAlt(index)}
+					loading="lazy"
+					decoding="async"
+					draggable="false"
+				/>
+			</button>
+		))}
+	</div>
+
+	<dialog class="event-lightbox" data-event-lightbox aria-label={`${eventTitle} image viewer`}>
+		<div class="event-lightbox__content">
+			<button class="event-lightbox__close" type="button" aria-label="Close image viewer" data-gallery-close>
+				<Icon name="ic:baseline-close" width={28} height={28} aria-hidden="true" />
+			</button>
+			{images.length > 1 && (
+				<button class="event-lightbox__nav event-lightbox__nav--previous" type="button" aria-label="Previous image" data-gallery-previous>
+					<Icon name="ic:baseline-chevron-left" width={30} height={30} aria-hidden="true" />
+				</button>
+			)}
+			<img class="event-lightbox__image" src={images[0]} alt={imageAlt(0)} draggable="false" data-gallery-image />
+			{images.length > 1 && (
+				<>
+					<button class="event-lightbox__nav event-lightbox__nav--next" type="button" aria-label="Next image" data-gallery-next>
+						<Icon name="ic:baseline-chevron-right" width={30} height={30} aria-hidden="true" />
+					</button>
+					<p class="event-lightbox__counter" aria-live="polite" data-gallery-counter>1 / {images.length}</p>
+				</>
+			)}
+		</div>
+	</dialog>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-event-gallery]').forEach((gallery) => {
+		const dialog = gallery.querySelector<HTMLDialogElement>('[data-event-lightbox]');
+		const lightboxImage = gallery.querySelector<HTMLImageElement>('[data-gallery-image]');
+		const counter = gallery.querySelector<HTMLElement>('[data-gallery-counter]');
+		const triggers = Array.from(gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-trigger]'));
+
+		if (!dialog || !lightboxImage || triggers.length === 0) return;
+
+		let activeIndex = 0;
+		let imageRequest = 0;
+		let lastTrigger: HTMLButtonElement | undefined;
+		const loadedSources = new Set<string>();
+		const preloadPromises = new Map<string, Promise<void>>();
+
+		const preloadSource = (source: string) => {
+			if (loadedSources.has(source)) return Promise.resolve();
+
+			const existingPromise = preloadPromises.get(source);
+			if (existingPromise) return existingPromise;
+
+			const preloadPromise = (async () => {
+				const preloadImage = new Image();
+				preloadImage.src = source;
+
+				try {
+					await preloadImage.decode();
+					loadedSources.add(source);
+				} catch {
+					// The selected image will display its native browser error state if loading fails.
+				}
+			})();
+
+			preloadPromises.set(source, preloadPromise);
+			return preloadPromise;
+		};
+
+		const preloadNeighbors = () => {
+			if (triggers.length < 2) return;
+
+			const previousSource = triggers[(activeIndex - 1 + triggers.length) % triggers.length].dataset.gallerySrc;
+			const nextSource = triggers[(activeIndex + 1) % triggers.length].dataset.gallerySrc;
+			if (previousSource) void preloadSource(previousSource);
+			if (nextSource) void preloadSource(nextSource);
+		};
+
+		const showImage = async (index: number) => {
+			const request = ++imageRequest;
+			activeIndex = (index + triggers.length) % triggers.length;
+			const trigger = triggers[activeIndex];
+			const nextSource = trigger.dataset.gallerySrc || '';
+			const nextAlt = trigger.dataset.galleryAlt || '';
+			const thumbnail = trigger.querySelector<HTMLImageElement>('.event-gallery__image');
+			const imageIsReady = loadedSources.has(nextSource) || Boolean(thumbnail?.complete && thumbnail.naturalWidth);
+
+			if (counter) counter.textContent = `${activeIndex + 1} / ${triggers.length}`;
+
+			if (!imageIsReady) {
+				dialog.dataset.loading = 'true';
+				dialog.setAttribute('aria-busy', 'true');
+				await preloadSource(nextSource);
+			}
+
+			if (request !== imageRequest) return;
+
+			lightboxImage.src = nextSource;
+			lightboxImage.alt = nextAlt;
+			delete dialog.dataset.loading;
+			dialog.setAttribute('aria-busy', 'false');
+			preloadNeighbors();
+		};
+
+		triggers.forEach((trigger, index) => {
+			const source = trigger.dataset.gallerySrc;
+			const thumbnail = trigger.querySelector<HTMLImageElement>('.event-gallery__image');
+			if (source && thumbnail) {
+				if (thumbnail.complete && thumbnail.naturalWidth) {
+					loadedSources.add(source);
+				} else {
+					thumbnail.addEventListener('load', () => loadedSources.add(source), { once: true });
+				}
+				trigger.addEventListener('pointerenter', () => void preloadSource(source), { once: true });
+				trigger.addEventListener('focus', () => void preloadSource(source), { once: true });
+			}
+
+			trigger.addEventListener('click', () => {
+				lastTrigger = trigger;
+				void showImage(index);
+				dialog.showModal();
+			});
+		});
+
+		gallery.querySelector('[data-gallery-close]')?.addEventListener('click', () => dialog.close());
+		gallery.querySelector('[data-gallery-previous]')?.addEventListener('click', () => void showImage(activeIndex - 1));
+		gallery.querySelector('[data-gallery-next]')?.addEventListener('click', () => void showImage(activeIndex + 1));
+
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+
+		dialog.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowLeft') void showImage(activeIndex - 1);
+			if (event.key === 'ArrowRight') void showImage(activeIndex + 1);
+		});
+
+		dialog.addEventListener('close', () => {
+			imageRequest += 1;
+			delete dialog.dataset.loading;
+			dialog.setAttribute('aria-busy', 'false');
+			lastTrigger?.focus();
+		});
+	});
+</script>
+
+<style>
+	.event-gallery {
+		margin-top: clamp(2rem, 5vw, 4rem);
+	}
+	.event-gallery h2 {
+		margin-bottom: 1.5rem;
+		font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	}
+	.event-gallery__images {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+		gap: clamp(0.75rem, 2vw, 1.25rem);
+	}
+	.event-gallery--compact .event-gallery__images {
+		grid-template-columns: 1fr;
+		gap: clamp(1rem, 3vw, 1.75rem);
+	}
+	.event-gallery__button {
+		display: block;
+		width: 100%;
+		padding: 0;
+		overflow: hidden;
+		border: 1px solid var(--theme-line);
+		border-radius: 1.25rem;
+		background: rgba(255, 255, 255, 0.76);
+		box-shadow: var(--theme-shadow-sm);
+		cursor: pointer;
+	}
+	.event-gallery__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin: 0 !important;
+		transition: transform var(--theme-transition);
+	}
+	.event-gallery:not(.event-gallery--compact) .event-gallery__image {
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+	}
+	.event-gallery__button:hover .event-gallery__image {
+		transform: scale(1.02);
+	}
+	.event-lightbox {
+		width: 100%;
+		max-width: none;
+		height: 100%;
+		max-height: none;
+		margin: 0;
+		padding: clamp(4.5rem, 8vw, 6rem) clamp(3.5rem, 8vw, 7rem);
+		border: 0;
+		background: transparent;
+		color: #fff;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+	.event-lightbox[open] {
+		display: grid;
+		place-items: center;
+	}
+	.event-lightbox::backdrop {
+		background: rgba(28, 27, 48, 0.94);
+	}
+	.event-lightbox__content {
+		position: relative;
+		display: grid;
+		width: 100%;
+		height: 100%;
+		place-items: center;
+	}
+	.event-lightbox__image {
+		max-width: 100%;
+		max-height: calc(100dvh - 9rem);
+		width: auto;
+		height: auto;
+		margin: 0 !important;
+		border-radius: 1.25rem;
+		box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+		object-fit: contain;
+		-webkit-user-drag: none;
+		transition: opacity 120ms ease;
+	}
+	.event-lightbox[data-loading='true'] .event-lightbox__image {
+		opacity: 0;
+	}
+	.event-lightbox__content::after {
+		content: '';
+		position: absolute;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 3px solid rgba(255, 255, 255, 0.28);
+		border-top-color: #fff;
+		border-radius: 50%;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.event-lightbox[data-loading='true'] .event-lightbox__content::after {
+		opacity: 1;
+		animation: event-gallery-spin 700ms linear infinite;
+	}
+	@keyframes event-gallery-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	.event-lightbox__close,
+	.event-lightbox__nav {
+		position: fixed;
+		z-index: 1;
+		display: grid;
+		width: 3.25rem;
+		height: 3.25rem;
+		padding: 0;
+		place-items: center;
+		border: 1px solid rgba(255, 255, 255, 0.7);
+		border-radius: 1rem;
+		background: rgba(255, 255, 255, 0.92);
+		box-shadow: 0 10px 30px rgba(10, 9, 30, 0.28);
+		color: var(--theme-primary-hover);
+		font: inherit;
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-user-select: none;
+		user-select: none;
+		transition: background var(--theme-transition), box-shadow var(--theme-transition), transform var(--theme-transition);
+	}
+	.event-lightbox__close :global([data-icon]),
+	.event-lightbox__nav :global([data-icon]) {
+		display: block;
+	}
+	.event-lightbox__close:hover,
+	.event-lightbox__nav:hover {
+		background: #fff;
+		box-shadow: 0 14px 36px rgba(10, 9, 30, 0.36);
+		transform: scale(1.05);
+	}
+	.event-lightbox__close {
+		top: 1.25rem;
+		right: 1.25rem;
+		background: rgba(255, 240, 248, 0.95);
+		color: #c9498e;
+	}
+	.event-lightbox__nav {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.event-lightbox__nav:hover {
+		transform: translateY(-50%) scale(1.05);
+	}
+	.event-lightbox__nav--previous {
+		left: 1.25rem;
+	}
+	.event-lightbox__nav--next {
+		right: 1.25rem;
+	}
+	.event-lightbox__counter {
+		position: fixed;
+		bottom: 1.25rem;
+		left: 50%;
+		margin: 0;
+		color: #fff;
+		font-size: 0.85rem;
+		font-weight: 800;
+		transform: translateX(-50%);
+	}
+	@media (max-width: 640px) {
+		.event-gallery__images {
+			grid-template-columns: 1fr;
+		}
+		.event-lightbox {
+			padding: 4.5rem 0.75rem 5.5rem;
+		}
+		.event-lightbox__image {
+			max-height: calc(100dvh - 10rem);
+		}
+		.event-lightbox__nav {
+			top: auto;
+			bottom: 1.15rem;
+		}
+		.event-lightbox__nav--previous {
+			left: 1rem;
+		}
+		.event-lightbox__nav--next {
+			right: 1rem;
+		}
+	}
+</style>

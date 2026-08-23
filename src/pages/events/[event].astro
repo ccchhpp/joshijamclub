@@ -1,8 +1,9 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Container from '../../components/core/Container.astro';
+import EventGallery from '../../components/events/EventGallery.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { eventSlug } from '../../utils/events';
+import { eventImages, eventSlug } from '../../utils/events';
 
 export async function getStaticPaths() {
 	const events = await getCollection('events');
@@ -14,10 +15,12 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props as { event: CollectionEntry<'events'> };
 const { Content } = await render(event);
+const { featuredImage, gallery } = await eventImages(event);
+const hasGallery = gallery.length > 0;
 const seo = {
 	title: event.data.title,
 	description: event.data.description,
-	image: event.data.featuredImage,
+	image: featuredImage,
 };
 const hasEventFacts = Boolean(
 	event.data.venueName ||
@@ -32,7 +35,7 @@ const hasEventFacts = Boolean(
 		<a class="event-back-link" href="/events/">← All events</a>
 		<div class="event-hero">
 			<div class="event-image-wrap">
-				<img class="event-image" src={event.data.featuredImage} alt={event.data.title} />
+				<img class="event-image" src={featuredImage} alt={event.data.title} />
 			</div>
 			<div class="event-summary">
 				<p class="event-status">{event.data.status === 'upcoming' ? 'Upcoming Jam' : 'Past Jam'}</p>
@@ -68,6 +71,7 @@ const hasEventFacts = Boolean(
 	<Container narrow>
 		<article class="event-details">
 			<Content />
+			{hasGallery && <EventGallery images={gallery} eventTitle={event.data.title} />}
 		</article>
 	</Container>
 </SiteLayout>

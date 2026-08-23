@@ -6,8 +6,8 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 import { newestFirst, toEventCard } from '../../utils/events';
 
 const allEvents = (await getCollection('events')).sort(newestFirst);
-const upcomingEvents = allEvents.filter((event) => event.data.status === 'upcoming').map(toEventCard);
-const pastEvents = allEvents.filter((event) => event.data.status === 'past').map(toEventCard);
+const upcomingEvents = await Promise.all(allEvents.filter((event) => event.data.status === 'upcoming').map(toEventCard));
+const pastEvents = await Promise.all(allEvents.filter((event) => event.data.status === 'past').map(toEventCard));
 
 const seo = {
 	title: 'Events | Joshi Jam',
